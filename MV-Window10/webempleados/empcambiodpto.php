@@ -14,12 +14,12 @@ try {
 	
 	
 	$dniUsu= $_POST['dni']?? '';
-	
 	$depart=$_POST['departamento']?? '';
 	
 	$datos=[$dniUsu, $depart];
 	
-	//obtengo el departamento seleccionado y lo que hago es mediante esa seleccion , mediante una select
+	
+	//obtengo el departamento seleccionado y mediante una select
 	//obtener el codigo y asi poder trabajar con el.
 	function obtenerCodigo($datos, $conn)
 	{
@@ -37,8 +37,8 @@ try {
 	
 	$seleccionado=obtenerCodigo($datos, $conn);
 	
-	
-	function asignarDpto($datos, $conn, $seleccionado)
+	//funcion para saber si el dni selecionado existe con un departamento asignado
+	function encontrarEmple($conn , $datos)
 	{
 		$stmt = $conn->prepare(" select d.cod_dpto, d.nombre, e.dni 
 								from emple_dpto e 
@@ -47,44 +47,69 @@ try {
 
 		 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		 $datosEmpleDpto=$stmt->fetchAll();
-		 
-		 if($datosEmpleDpto)
-		 {
-			 
-			 for ($i=0 ; $i<count($datosEmpleDpto) ; $i++)
-			 { 
-				 if ($datos[0] == $datosEmpleDpto[$i]['dni'] )
-				 {
-					$stmt = $conn->prepare("UPDATE emple_dpto 
-										SET  cod_dpto=:codigo
-										WHERE dni=:dni");
-					$stmt->bindParam(':dni', $datos[0]);
-					$stmt->bindParam(':codigo', $seleccionado['cod_dpto']);
-					
-					if($stmt->execute())
-					{
-						echo "Datos introducidos correctamente en la tabla emple_dpto.";
-						$varible=$datosEmpleDpto[$i]['cod_dpto'];
-						echo $seleccionado['cod_dpto'];
-					}
-					else
-					{
-						echo "Error al registrar al empleado";
-					}
-				 } 
-			 }
-		 }
-		 else{
-			 echo "No se encontraron resultados en la tabla.";
-		 }
-		 
+		 $encontrado =false;
 		
-		
+			for ($i=0 ; $i<count($datosEmpleDpto) ; $i++)
+			{ 
+				  if ($datos[0] === $datosEmpleDpto[$i]['dni'] )
+				{
+						
+					$encontrado =true;
+				}
+				 
+			} 
+	return $encontrado;
 	}
-	asignarDpto($datos, $conn, $seleccionado);
+	$encontraEmple=encontrarEmple($conn, $datos);
 	
+	function asignarDpto($datos, $conn, $seleccionado, $encontraEmple)
+	{
+		// consulta para obtener los departamentos asignados a los empleados
+		$stmt = $conn->prepare("SELECT d.cod_dpto, d.nombre, e.dni 
+								FROM emple_dpto e 
+								INNER JOIN dpto d ON e.cod_dpto = d.cod_dpto");
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$datosEmpleDpto = $stmt->fetchAll();
+
+		//para saber si hay datos en la tabla
+		if ($datosEmpleDpto) {
+			$encontrado = false;
+
+			// verifico si el empleado es encontrado
+			if ($encontraEmple) {
+				// recorro todos los registro de la tabla emple_dpto 
+				for ($i = 0; $i < count($datosEmpleDpto); $i++) {
+					if ($datosEmpleDpto[$i]['dni'] == $datos[0]) {
+						
+						$stmt = $conn->prepare("UPDATE emple_dpto 
+												SET cod_dpto = :codigo 
+												WHERE dni = :dni");
+						$stmt->bindParam(':dni', $datos[0]);
+						$stmt->bindParam(':codigo', $seleccionado['cod_dpto']);
+
+						// Ejecutar la actualización
+						if ($stmt->execute()) {
+							$encontrado = true;
+						}
+					}
+				}
+
+				// verifico si el empleado fue encontrado 
+				if (!$encontrado) {
+					echo "Empleado no encontrado.";
+					
+				} 
+			}
+
+		} 
+	}
+
 	
+	asignarDpto($datos, $conn, $seleccionado, $encontraEmple);
+		
 	
+	//listar todos los departamentos
 	function listaDepartamento($conn)
 	{
 	$stmt = $conn->prepare("SELECT nombre FROM dpto");
@@ -97,6 +122,7 @@ try {
 	}
 	$departamentos=listaDepartamento($conn);
 	
+	//listar todos los dni
 	function listaDni($conn)
 	{
 	$stmt = $conn->prepare("SELECT dni FROM emple");
@@ -109,7 +135,7 @@ try {
 	}
 	$dni=listaDni($conn);
 	
-	
+	/*
 	if (!empty($dniUsu))
 	{
 		echo "<p>Dni seleccionado: " . $dniUsu . "</p>";
@@ -122,13 +148,26 @@ try {
     } else {
         echo "<p>No se seleccionó ningún departamento.</p>";
     }
-    
+    */
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // poner $encontraEmple en true si el formulario fue enviado
+    $encontraEmple = true;
+    // este llama a la funcion con los datos del formulario
+    asignarDpto($datos, $conn, $seleccionado, $encontraEmple);
+	} else {
+		//no hace nada si no se ha enviado
+		asignarDpto($datos, $conn, $seleccionado, false);
+	}
+	
+	
+	
+	
     }
 catch(PDOException $e)
     {
     echo "Error: " . $e->getMessage();
     }
-$conn = null; //aqui la conexion se cierra automaticamente
+$conn = null; 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -140,6 +179,7 @@ $conn = null; //aqui la conexion se cierra automaticamente
     <form method="POST" action="">
         <label for="dni">DNI del Empleado:</label>
 		<select id="dni" name="dni" >
+			<option >--Selecciona DNI--</option>
             <?php
             foreach ($dni as $row)
 				{
@@ -152,6 +192,8 @@ $conn = null; //aqui la conexion se cierra automaticamente
 		<br>
         <label for="departamento">Departamento:</label>
         <select id="departamento" name="departamento" >
+			<option >--Selecciona Departamento--</option>
+				
             <?php
             foreach ($departamentos as $row)
 				{
