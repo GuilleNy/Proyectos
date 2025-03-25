@@ -1,10 +1,11 @@
 <?php
-$cont=2;
+
 
 echo "<table style='border: 2px solid black; border-collapse: collapse; width: 700px;'>";
 
-for ($i=2; $i < 7; $i++) 
+for ($i=2; $i <= 10; $i+=2) 
 { 
+    $cont=$i;
     echo "<tr>";
     
     for ($j=1; $j <= 10; $j++) 
@@ -15,7 +16,7 @@ for ($i=2; $i < 7; $i++)
     }
     echo "</tr>";
 
-    $cont=2*$i;
+   
 }
 
 echo "</table>";
