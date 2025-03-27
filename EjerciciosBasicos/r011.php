@@ -10,9 +10,6 @@ echo "Numero 2 en Hexa: " . $num2 . "<br>";
 echo convertirDecimal($num1) . " + " . convertirDecimal($num2) . "=" . $resultado . " en base 10<br>";
 echo $num1 . "+" . $num2 . "=" . sumaDec($resultado) . " en base 16<br>";
 
-
-
-
 function sumaDec($num){
 
     $cadena="";
