@@ -20,7 +20,7 @@ function numMaximoJugadores($filtroJugadores)
     }
     return $enviar;
 }
-
+/************************************************************************************************ */
 function numMaximoDados($numDados)
 {
     $enviar=true;
@@ -55,7 +55,8 @@ try{
         }
     }
 
-  
+  /************************************************************************************************ */
+
 
     foreach ($jugadores as &$nombre ) {
         
@@ -64,6 +65,7 @@ try{
     
     //var_dump($jugadores);
 
+/************************************************************************************************ */
 
     function visualizarTabla($jugadores){
         echo "<table border='1'>";
@@ -81,50 +83,53 @@ try{
 
         echo "</table>";
     }
+/************************************************************************************************ */
 
 
-function sumarPuntos($jugadores, $numDados){
-    $sumaJugadores=[];
+    function sumarPuntos($jugadores, $numDados){
+        $sumaJugadores=[];
 
-    foreach($jugadores as $nombre => $dados){
-        //array_unique() devuelve un array con los valores únicos de un array
-        //count() devuelve el número de elementos en un array
-        //array_sum() devuelve la suma de los valores de un array
-        //count(array_unique($dados))== 1 significa que todos los dados son iguales
-        if(count(array_unique($dados))== 1 && $numDados > 2)
-        {
-            $sumaJugadores[$nombre]=100;
-        }else{
-            $sumaJugadores[$nombre]=array_sum($dados);
+        foreach($jugadores as $nombre => $dados){
+            //array_unique() devuelve un array con los valores únicos de un array
+            //count() devuelve el número de elementos en un array
+            //array_sum() devuelve la suma de los valores de un array
+            //count(array_unique($dados))== 1 significa que todos los dados son iguales
+            if(count(array_unique($dados))== 1 && $numDados > 2)
+            {
+                $sumaJugadores[$nombre]=100;
+            }else{
+                $sumaJugadores[$nombre]=array_sum($dados);
+            }
         }
+        return $sumaJugadores;
     }
-    return $sumaJugadores;
-}
+/************************************************************************************************ */
 
-function visualizarPuntos($jugadores, $numDados)
-{
-    $arrayPuntos= sumarPuntos($jugadores, $numDados);
-    foreach($arrayPuntos as $nombre => $puntos )
+    function visualizarPuntos($jugadores, $numDados)
     {
-        echo $nombre . " =" . $puntos . "<br>";
-        
-    }
-}
-
-function ganador($jugadores, $numDados){
-
-    $sumJuga= sumarPuntos($jugadores, $numDados);
-    $maximo= max($sumJuga);
-    $contadorGanadores=0;
-
-    foreach ($sumJuga as $nombre => $dado) {
-        if($dado == $maximo){
-            echo "GANADOR: " . $nombre . "<br>";
-            $contadorGanadores++;
+        $arrayPuntos= sumarPuntos($jugadores, $numDados);
+        foreach($arrayPuntos as $nombre => $puntos )
+        {
+            echo $nombre . " =" . $puntos . "<br>";
+            
         }
     }
-    echo "NUMERO GANADORES: " . $contadorGanadores;
-}
+/************************************************************************************************ */
+
+    function ganador($jugadores, $numDados){
+
+        $sumJuga= sumarPuntos($jugadores, $numDados);
+        $maximo= max($sumJuga);
+        $contadorGanadores=0;
+
+        foreach ($sumJuga as $nombre => $dado) {
+            if($dado == $maximo){
+                echo "GANADOR: " . $nombre . "<br>";
+                $contadorGanadores++;
+            }
+        }
+        echo "NUMERO GANADORES: " . $contadorGanadores;
+    }
 
 
     echo "<h2>RESULTADO JUEGO DADOS</h2>";
