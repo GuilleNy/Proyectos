@@ -15,8 +15,6 @@ function potencia($base,$potencia)
     for ($i=0; $i < $potencia; $i++) { 
         $resultado*=$base;
     }
-
-
     return $resultado;
 }
 

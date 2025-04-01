@@ -12,7 +12,7 @@ for ($i=0; $i < 9; $i++)
     for ($j=0; $j <= 3; $j++) 
     { 
         if ($cont <= 100){ //Si el contador es menor o igual a 100 pone el numero en la tabla y lo suma.
-            //Esta suma se hara por cada fila, en cuanto se acabe la fila se reiniciara, esto
+            //La variable suma se hara por cada fila, en cuanto se acabe la fila se reiniciara, esto
             //se debe a que la variable $suma=0 esta dentro del primer bucle, por lo que se reinicia,
             //si estuviera fuera del bucle, la suma se acumularia en todas las filas.            
             $suma+=$cont; 

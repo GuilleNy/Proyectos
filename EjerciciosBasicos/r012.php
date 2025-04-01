@@ -20,13 +20,4 @@ function fibonacci($n) {
 fibonacci(15);
 
     
-
-
-
-
-
-
-
-
-
 ?>

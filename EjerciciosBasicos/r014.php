@@ -1,9 +1,7 @@
 <?php
 
-
 $blanco="B";
 $negro="N";
-
 
 echo "<table style='border: 2px solid black; border-collapse: collapse; width: 300px;'>";
 
@@ -33,12 +31,8 @@ for ($i=1; $i <= 8; $i++) {
             }
         }
         echo "</tr>";
-
     }
-    
 }
-
-
 
 echo "</table>";
 

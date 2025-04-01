@@ -20,8 +20,8 @@ function sumaDec($num){
         
         $resto=$num%16;
         $cadena= $resto . $cadena;
-        $num=(int) ($num/16); //Debemos usar una conversión explícita a entero ((int)) para asegurarte de que $num se reduce correctamente en cada iteración.
-        //$num=$num/2; esta manteniendo la parte decimal, lo que puede causar errores en la conversion
+        $num=(int) ($num/16); 
+        
     }
 
     return $cadena;
