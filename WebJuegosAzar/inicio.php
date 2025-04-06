@@ -28,15 +28,15 @@ if(!verificarSesion())
                 </div>
                 <div class="card-body text-center">
                     <div>
-                        <input type="submit" value="Alta de Sorteos" name="registro" class="btn btn-primary">
+                        <input type="submit" value="Alta de Sorteos" name="altaSort" class="btn btn-primary">
                     </div>
                     <hr>
                     <div>
-                        <input type="submit" value="Realizar Sorteo" name="login" class="btn btn-primary">
+                        <input type="submit" value="Realizar Sorteo" name="realizarSort" class="btn btn-primary">
                     </div>
                     <hr>
                     <div>
-                        <input type="submit" value="Consultar Sorteo" name="login" class="btn btn-primary">
+                        <input type="submit" value="Consultar Sorteo" name="consultarSort" class="btn btn-primary">
                     </div>
                 </div>
                 <div class="card-footer text-center">

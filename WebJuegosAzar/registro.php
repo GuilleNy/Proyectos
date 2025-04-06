@@ -1,8 +1,11 @@
 <?php
-include_once "func_registro.php";
+session_start();
 if (isset($_SESSION['mensajeRegistro'])) {
     echo "<div class='alert alert-success'>" . $_SESSION['mensajeRegistro'] . "</div>";
     unset($_SESSION['mensajeRegistro']); // Borra el mensaje después de mostrarlo
+}else if(isset($_SESSION['mensajeRegistroWarning'])) {
+    echo "<div class='alert alert-danger'>" . $_SESSION['mensajeRegistroWarning'] . "</div>";
+    unset($_SESSION['mensajeRegistroWarning']); 
 }
 ?>
 <html lang="es">
@@ -15,7 +18,7 @@ if (isset($_SESSION['mensajeRegistro'])) {
 </head>
 <body>
 
-    <form name="registro" action="" method="POST" class="d-flex justify-content-center align-items-center vh-100">
+    <form name="registro" action="func_registro.php" method="POST" class="d-flex justify-content-center align-items-center vh-100">
         <div class="container">
             <!-- Aplicación -->
             <div class="card border-success mb-3 mx-auto" style="max-width: 30rem;">
@@ -24,7 +27,7 @@ if (isset($_SESSION['mensajeRegistro'])) {
                 </div>
                 <div class="card-body text-center">
                     <div class="mb-3">
-                        <label for="dni" class="form-label"><b>Dni:</b></label>
+                        <label for="dni" class="form-label"><b>DNI:</b></label>
                         <input type="text" name="dni" class="form-control w-75 mx-auto">
                     </div>
                     <div class="mb-3">
@@ -51,18 +54,6 @@ if (isset($_SESSION['mensajeRegistro'])) {
             </div>
         </div>
     </form>
-
-    <?php
-        if(isset($_POST['registro'])){
-            list($dni, $nombre, $apellido, $email)=recogerDatosRegistro();
-            ingresarRegistro($dni, $nombre, $apellido, $email);
-
-        }else if(isset($_POST['login']))
-        {
-            header("Location: ./login.php");
-        }    
-    ?>   
-
 
 </body>
 </html>

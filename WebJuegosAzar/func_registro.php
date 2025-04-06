@@ -3,6 +3,35 @@ session_start();
 include_once "conexionBaseDeDatos.php";
 include_once "otrasFunciones.php";
 
+function validar(){
+    $enviar=true;
+    if(empty(trim($_POST['dni']))){
+        $enviar=false;
+    }else if(empty(trim($_POST['nombre']))){
+        $enviar=false;
+    }else if(empty(trim($_POST['apellido']))){
+        $enviar=false;
+    }else if(empty(trim($_POST['email']))){
+        $enviar=false;
+    }
+    return $enviar;
+}
+
+
+if(isset($_POST['registro'])){
+    if(validar()){// si validar es true realiza la recoleccion de datos
+        list($dni, $nombre, $apellido, $email)=recogerDatosRegistro();
+        ingresarRegistro($dni, $nombre, $apellido, $email);
+    }else{//si validar es false entonces manda un mensaje de error.
+        $_SESSION['mensajeRegistroWarning'] = "Completa Todos los campos.";
+        header("Location: registro.php");
+        exit();
+    }
+}else if(isset($_POST['login']))
+{
+    header("Location: ./login.php");
+}   
+
 
 function recogerDatosRegistro(){
     $VstDni=depurar($_POST['dni']);

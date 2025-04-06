@@ -1,10 +1,8 @@
 <?php
 session_start();
-include_once "func_login.php";
-
 
 if (isset($_SESSION['mensajeLogin'])) {
-    echo "<div class='alert alert-success'>" . $_SESSION['mensajeLogin'] . "</div>";
+    echo "<div class='alert alert-danger'>" . $_SESSION['mensajeLogin'] . "</div>";
     unset($_SESSION['mensajeLogin']); // Borra el mensaje después de mostrarlo
 }
 
@@ -19,7 +17,7 @@ if (isset($_SESSION['mensajeLogin'])) {
 </head>
 <body>
 
-    <form name="login" action="" method="POST" class="d-flex justify-content-center align-items-center vh-100">
+    <form name="login" action="func_login.php" method="POST" class="d-flex justify-content-center align-items-center vh-100">
         <div class="container">
             <!-- Aplicación -->
             <div class="card border-success mb-3 mx-auto" style="max-width: 30rem;">
@@ -48,20 +46,6 @@ if (isset($_SESSION['mensajeLogin'])) {
             </div>
         </div>
     </form>
-
-    <?php
-        if(isset($_POST['login'])){
-            list($usuario, $contraseña)=recogerDatos();
-            verificarDatos($usuario, $contraseña); //Las variables ($usuario, $contraseña) las tengo que poner tal cual en la funcion del fichero fun_login.php
-        }else if(isset($_POST['registrarse']))
-        {
-            header("Location: ./registro.php");
-        }
-    ?>
-
-
-    
-
 
 </body>
 </html>

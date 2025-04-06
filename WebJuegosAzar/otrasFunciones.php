@@ -9,6 +9,4 @@ function depurar($cadena){
 
 
 
-
-
 ?>

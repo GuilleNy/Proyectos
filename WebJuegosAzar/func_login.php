@@ -1,7 +1,20 @@
 <?php
+session_start();
 include_once "func_sesiones.php";
 include_once "conexionBaseDeDatos.php";
 include_once "otrasFunciones.php";
+/******************************************************************/
+
+
+if(isset($_POST['login'])){
+    list($usuario, $contraseña)=recogerDatos();
+    verificarDatos($usuario, $contraseña); //Las variables ($usuario, $contraseña) las tengo que poner tal cual en la funcion del fichero fun_login.php
+}else if(isset($_POST['registrarse']))
+{
+    header("Location: ./registro.php");
+}
+
+
 
 
 function recogerDatos(){
