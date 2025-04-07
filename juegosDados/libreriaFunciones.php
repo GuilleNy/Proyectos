@@ -1,6 +1,5 @@
 <?php
-
-
+/*
 $jugador1=$_POST['jug1'];
 $jugador2=$_POST['jug2'];
 $jugador3=$_POST['jug3'];
@@ -9,10 +8,29 @@ $numDados=$_POST['numdados'];
 
 
 $filtroJugadores= array_filter([$jugador1,$jugador2,$jugador3,$jugador4]);
+*/
+function recogerDatos(){
+    $jugadores=[];
+    for ($i = 1; $i <= 4; $i++) {
+        $jugador = depurar($_POST["jug$i"]);
+        if (!empty($jugador)) {
+            $jugadores[] = $jugador; 
+        }
+    }
+    return $jugadores;
+}
 
-function numMaximoJugadores($filtroJugadores)
+function depurar($cadena){
+    $cadena=trim($cadena);
+    $cadena=stripslashes($cadena);
+    $cadena=htmlspecialchars($cadena);
+    return $cadena;
+}
+
+function numMaximoJugadores()
 {
     $enviar=true;
+    $filtroJugadores=recogerDatos();
     $numerosDeJugadores=count($filtroJugadores);
 
     if($numerosDeJugadores < 2 || $numerosDeJugadores >4 ){
@@ -21,9 +39,10 @@ function numMaximoJugadores($filtroJugadores)
     return $enviar;
 }
 /************************************************************************************************ */
-function numMaximoDados($numDados)
+function numMaximoDados()
 {
     $enviar=true;
+    $numDados=$_POST['numdados'];
     if($numDados < 1 || $numDados > 10){
         $enviar=false;
     }
@@ -32,35 +51,35 @@ function numMaximoDados($numDados)
 
 try{
     if(isset($_POST['tirar'])){
-        if (!numMaximoJugadores($filtroJugadores)){
+        if (!numMaximoJugadores()){
            throw new Exception("El número de jugadores debe ser mínimo 2 y máximo 4.");
         }
-        if (!numMaximoDados($numDados)){
+        if (!numMaximoDados()){
             throw new Exception("El numero de dados debe de ser minimo de 1 y como maximo de 10.");
         }
 
     }
+/******************************************************************************************************* */
 
     // Inicializar el array con valores vacios.
 
+    $filtroJugadores=recogerDatos();
+    
     $jugadores=[];
 
     foreach ($filtroJugadores as $nombre) {
         $jugadores[$nombre]=[];
     }
 
-    function llenarDados(&$nombre, $numDados){
+    function llenarDados(&$nombre){
+        $numDados=$_POST['numdados'];
         for ($i=0; $i < $numDados; $i++) { 
             $nombre[]=rand(1,6);
         }
     }
 
-  /************************************************************************************************ */
-
-
     foreach ($jugadores as &$nombre ) {
-        
-       llenarDados($nombre, $numDados);
+       llenarDados($nombre);
     }
     
     //var_dump($jugadores);
@@ -68,25 +87,23 @@ try{
 /************************************************************************************************ */
 
     function visualizarTabla($jugadores){
+        echo "<h2>RESULTADO JUEGO DADOS</h2>";
         echo "<table border='1'>";
-       
         foreach($jugadores as $nombre => $dados){
-            
             echo "<tr>";
             echo "<td>" . $nombre . "</td>";
             foreach ($dados as $dado) {
                 echo "<td><img src='images/$dado.png' width='100px' height='100px'></td>";
             }
-
             echo "</tr>";
         }
-
         echo "</table>";
     }
 /************************************************************************************************ */
 
 
-    function sumarPuntos($jugadores, $numDados){
+    function sumarPuntos($jugadores){
+        $numDados=$_POST['numdados'];
         $sumaJugadores=[];
 
         foreach($jugadores as $nombre => $dados){
@@ -105,8 +122,9 @@ try{
     }
 /************************************************************************************************ */
 
-    function visualizarPuntos($jugadores, $numDados)
+    function visualizarPuntos($jugadores)
     {
+        $numDados=$_POST['numdados'];
         $arrayPuntos= sumarPuntos($jugadores, $numDados);
         foreach($arrayPuntos as $nombre => $puntos )
         {
@@ -116,8 +134,8 @@ try{
     }
 /************************************************************************************************ */
 
-    function visualizarGanador($jugadores, $numDados){
-
+    function visualizarGanador($jugadores){
+        $numDados=$_POST['numdados'];
         $sumJuga= sumarPuntos($jugadores, $numDados);
         $maximo= max($sumJuga);
         $contadorGanadores=0;
@@ -132,20 +150,15 @@ try{
     }
 
 /************************************************************************************************ */
-    echo "<h2>RESULTADO JUEGO DADOS</h2>";
-
     visualizarTabla($jugadores);
 
-    visualizarPuntos($jugadores, $numDados);
+    visualizarPuntos($jugadores);
 
-    visualizarGanador($jugadores, $numDados);
-
+    visualizarGanador($jugadores);
 
 }catch(Exception $e){
     echo $e->getMessage();
 }
-
-
 
 
 
