@@ -116,7 +116,7 @@ try{
     }
 /************************************************************************************************ */
 
-    function ganador($jugadores, $numDados){
+    function visualizarGanador($jugadores, $numDados){
 
         $sumJuga= sumarPuntos($jugadores, $numDados);
         $maximo= max($sumJuga);
@@ -131,14 +131,14 @@ try{
         echo "NUMERO GANADORES: " . $contadorGanadores;
     }
 
-
+/************************************************************************************************ */
     echo "<h2>RESULTADO JUEGO DADOS</h2>";
 
     visualizarTabla($jugadores);
 
     visualizarPuntos($jugadores, $numDados);
 
-    ganador($jugadores, $numDados);
+    visualizarGanador($jugadores, $numDados);
 
 
 }catch(Exception $e){

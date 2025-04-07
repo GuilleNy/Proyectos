@@ -49,11 +49,15 @@ if(!verificarSesion())
     </form>
 
     <?php
+
+    print_r($_SESSION);
+    
         if(isset($_POST['logout'])){
             if(isset($_SESSION["VstUsuario"]) && isset($_SESSION["VstContraseña"])){
 				eliminarSesionYRedirigir();
 			}
         }  
+
     ?>   
 
 
