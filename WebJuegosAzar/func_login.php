@@ -8,7 +8,7 @@ include_once "otrasFunciones.php";
 
 if(isset($_POST['login'])){
     list($usuario, $contraseña)=recogerDatos();
-    verificarDatos($usuario, $contraseña); //Las variables ($usuario, $contraseña) las tengo que poner tal cual en la funcion del fichero fun_login.php
+    verificarDatos($usuario, $contraseña); //las variables ($usuario, $contraseña) las tengo que poner tal cual en la funcion de verificarDatos($usuario, $contraseña)
 }else if(isset($_POST['registrarse']))
 {
     header("Location: ./registro.php");
@@ -23,7 +23,7 @@ function recogerDatos(){
     return [$nomUsuario, $contrUsuario];
 }
 //Verificar que las variables que esten dentro de verificarDatos sean las mismas de la que
-//se encuentra en el login.php .
+//se utiliza cuando se llama a la funcion.
 function verificarDatos($usuario, $contraseña) 
 {
     $conn=conexionBBDD();
@@ -56,7 +56,7 @@ function verificarDatos($usuario, $contraseña)
     }catch(PDOException $e)
         {
             if ($conn->inTransaction()) {
-                $conn->rollBack();  // Solo hacer rollBack si hay transacción activa
+                $conn->rollBack(); 
             }
             echo "Error: " . $e->getMessage();
         }
