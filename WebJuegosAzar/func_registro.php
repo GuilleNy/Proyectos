@@ -3,19 +3,7 @@ session_start();
 include_once "conexionBaseDeDatos.php";
 include_once "otrasFunciones.php";
 
-function validar(){
-    $enviar=true;
-    if(empty(trim($_POST['dni']))){
-        $enviar=false;
-    }else if(empty(trim($_POST['nombre']))){
-        $enviar=false;
-    }else if(empty(trim($_POST['apellido']))){
-        $enviar=false;
-    }else if(empty(trim($_POST['email']))){
-        $enviar=false;
-    }
-    return $enviar;
-}
+
 
 
 if(isset($_POST['registro'])){
@@ -31,6 +19,26 @@ if(isset($_POST['registro'])){
 {
     header("Location: ./login.php");
 }   
+
+
+
+
+
+
+
+function validar(){
+    $enviar=true;
+    if(empty(trim($_POST['dni']))){
+        $enviar=false;
+    }else if(empty(trim($_POST['nombre']))){
+        $enviar=false;
+    }else if(empty(trim($_POST['apellido']))){
+        $enviar=false;
+    }else if(empty(trim($_POST['email']))){
+        $enviar=false;
+    }
+    return $enviar;
+}
 
 
 function recogerDatosRegistro(){
