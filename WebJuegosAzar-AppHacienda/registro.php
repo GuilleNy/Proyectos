@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+/***********************************************ALERTA**************************************************** */
 if (isset($_SESSION['mensajeRegistro'])) {
     echo "<div class='alert alert-success'>" . $_SESSION['mensajeRegistro'] . "</div>";
     unset($_SESSION['mensajeRegistro']); // Borra el mensaje después de mostrarlo
@@ -7,6 +9,7 @@ if (isset($_SESSION['mensajeRegistro'])) {
     echo "<div class='alert alert-danger'>" . $_SESSION['mensajeRegistroWarning'] . "</div>";
     unset($_SESSION['mensajeRegistroWarning']); 
 }
+/********************************************************************************************************* */
 ?>
 <html lang="es">
 <head>

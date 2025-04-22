@@ -1,24 +1,8 @@
 <?php 
-session_start();//agregue aqui la sesion
+session_start();
 include_once "conexionBaseDeDatos.php";
-include_once "func_sesiones.php";
 
-/*****************VERIFICAR LA SESION********************** */
-if(!verificarSesion())
-{
-	header("Location: ./login.php");
-    exit;// esto  detiene la ejecución del script.
-}
-/************************ALERTA***************************** */
-if (isset($_SESSION['mensajeSorteo'])) {
-    echo "<div class='alert alert-success'>" . $_SESSION['mensajeSorteo'] . "</div>";
-    unset($_SESSION['mensajeSorteo']); 
-}else if(isset( $_SESSION['mensajeSorteoFail'])){
-    echo "<div class='alert alert-danger'>" . $_SESSION['mensajeSorteoFail'] . "</div>";
-    unset($_SESSION['mensajeSorteoFail']); 
-}
-
-/*****************PROGRAMA PRINCIPAL************************* */
+/*****************************PROGRAMA PRINCIPAL************************* */
 if(isset($_POST['generar'])){
     $_SESSION["numGand"]=generarCombinacion();
     header("Location: ./realizarSorteo.php");
@@ -42,17 +26,13 @@ else if(isset($_POST['atras']))
     header("Location: ./inicio.php");
     exit;
 }   
-/************************************************************* */
+/*************************************************************************** */
 
-//Funcion para calcular la recaudacion de premios
 //Funcion para insertar la recaudacion de premios en la tabla 
 //Recordar que en la recaudacion total de las apuestas la mitad se ira a los premios para los ganadores,
 //en esa mitad un 50% se va a la catg 6, 20% a la catg 5C, 15% a la catg 5, 10% a la catg 4 y un 5% a la catg 3.
 
-//Funcion para actualizar el saldo de las cuentas de los apostantes en base a los premios obtenidos.
 
-
-//Funcion para insertar la combinacion ganadora en la tabla
 function generarCombinacion(){
     $numAleatorios=array();
     
@@ -68,19 +48,24 @@ function generarCombinacion(){
     $cadenaGan=implode("-", $numAleatorios);
     return $cadenaGan;
 }
-
+/********************************************************************************************/
+function calcularRecaudacionPremio($num){
+    $cantidadTotalRec=obtenerRecaudacion($num);
+    return $cantidadTotalRec/2;
+}
+/******************************************************************************************** */
 function insertarCombinacionGand(){
     $combinacion=$_SESSION["numGand"];
     $sorteoSele=$_POST['sorteo'];
+    $numeroDelSorteo=calcularRecaudacionPremio($sorteoSele);
     //$valido=false;
     $conn=conexionBBDD();
     try{
         $conn->beginTransaction();
-        $stmt = $conn->prepare("UPDATE sorteo SET COMBINACION_GANADORA = :combGanadora ,  ACTIVO = 'N'  WHERE NSORTEO = :numSorteo"); 
-	
-        //asigna valores a los marcadores de posicion
+        $stmt = $conn->prepare("UPDATE sorteo SET COMBINACION_GANADORA = :combGanadora , RECAUDACION_PREMIOS=:recaud, ACTIVO = 'N'  WHERE NSORTEO = :numSorteo"); 
         $stmt->bindParam(':numSorteo', $sorteoSele);
-        $stmt->bindParam(':combGanadora', $combinacion);
+        $stmt->bindParam(':recaud', $numeroDelSorteo);//actualiza la recaudacion para premios
+        $stmt->bindParam(':combGanadora', $combinacion);//agrega la combinacion ganadora
         
 
         if($stmt->execute()){
@@ -98,7 +83,34 @@ function insertarCombinacionGand(){
     //return $valido;
 }
 
+/********************************************************************************************* */
+function obtenerRecaudacion($numeroSort){
+    $conn=conexionBBDD();
+    try{
+       
+        $stmt=$conn->prepare("SELECT RECAUDACION FROM sorteo WHERE NSORTEO=:numSorteo");
+        $stmt->bindParam(':numSorteo', $numeroSort);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $numSorteos=$stmt->fetch();
 
+
+    }catch(PDOException $e)
+        {
+            if ($conn->inTransaction()) {
+                $conn->rollBack();  // Solo hacer rollBack si hay transacción activa
+            }
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+
+    return  (float)$numSorteos['RECAUDACION'];
+
+}
+/********************************************************************************************************* */
+
+
+//Funcion para actualizar el saldo de las cuentas de los apostantes en base a los premios obtenidos.
 
 
 ?>

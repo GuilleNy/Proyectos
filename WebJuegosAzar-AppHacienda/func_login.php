@@ -3,9 +3,9 @@ session_start();
 include_once "func_sesiones.php";
 include_once "conexionBaseDeDatos.php";
 include_once "otrasFunciones.php";
-/******************************************************************/
 
 
+/*****************************PROGRAMA PRINCIPAL************************* */
 if(isset($_POST['login'])){
     list($usuario, $contraseña)=recogerDatos();
     verificarDatos($usuario, $contraseña); //las variables ($usuario, $contraseña) las tengo que poner tal cual en la funcion de verificarDatos($usuario, $contraseña)
@@ -13,7 +13,7 @@ if(isset($_POST['login'])){
 {
     header("Location: ./registro.php");
 }
-
+/*************************************************************************** */
 
 
 

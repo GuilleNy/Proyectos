@@ -5,7 +5,7 @@ include_once "otrasFunciones.php";
 
 
 
-
+/*****************************PROGRAMA PRINCIPAL************************* */
 if(isset($_POST['registro'])){
     if(validar()){// si validar es true realiza la recoleccion de datos
         list($dni, $nombre, $apellido, $email)=recogerDatosRegistro();
@@ -19,11 +19,7 @@ if(isset($_POST['registro'])){
 {
     header("Location: ./login.php");
 }   
-
-
-
-
-
+/*************************************************************************** */
 
 
 function validar(){

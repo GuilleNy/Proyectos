@@ -2,6 +2,7 @@
 session_start();
 include_once "conexionBaseDeDatos.php";
 
+/*****************************PROGRAMA PRINCIPAL************************* */
 if(isset($_POST['darAlta'])){
     if(darAlta()){
         $_SESSION['mensajeAlta']="Alta Completada";
@@ -17,7 +18,7 @@ if(isset($_POST['darAlta'])){
 {
     header("Location: ./inicio.php");
 }   
-
+/*************************************************************************** */
 function localizarUltimoNum(){
     $conn=conexionBBDD();
 
