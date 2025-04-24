@@ -22,7 +22,7 @@ if (isset($_SESSION['mensajeLogin'])) {
             <!-- Aplicación -->
             <div class="card border-success mb-3 mx-auto" style="max-width: 30rem;">
                 <div class="card-header text-center">
-                    <h2><b>LOGIN HACIENDA</b></h2>
+                    <h2><b>LOGIN APOSTANTE</b></h2>
                 </div>
                 <div class="card-body text-center">
                     <div class="mb-3">

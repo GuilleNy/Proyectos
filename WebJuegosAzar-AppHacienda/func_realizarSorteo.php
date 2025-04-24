@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include_once "conexionBaseDeDatos.php";
-
+include_once "BBDD_obtenerApost.php";
 /*****************************PROGRAMA PRINCIPAL************************* */
 if(isset($_POST['generar'])){
     $_SESSION["numGand"]=generarCombinacion();
@@ -51,7 +51,7 @@ function generarCombinacion(){
 /********************************************************************************************/
 function calcularRecaudacionPremio($num){
     $cantidadTotalRec=obtenerRecaudacion($num);
-    return $cantidadTotalRec/2;
+    return ($cantidadTotalRec*0.50);//El 50% recaudación se dedica a premios.
 }
 /******************************************************************************************** */
 function insertarCombinacionGand(){
@@ -111,6 +111,40 @@ function obtenerRecaudacion($numeroSort){
 
 
 //Funcion para actualizar el saldo de las cuentas de los apostantes en base a los premios obtenidos.
+
+
+//$numSorteo=$_POST['sorteo'];
+    //$cantidadPremios=calcularRecaudacionPremio($numSorteo);//2500
+
+    //$combGand=explode("-", $_SESSION["numGand"]);
+    //$numReintegro=array_slice($combGand, count($combGand)-1);//Combinacion ganadora
+
+    //$combGand=array_slice($combGand, 1, count($apuesta)-1) //30-39-5-24-36-43
+    $numero=obetenerNumeroApost();//devuelve los 7 numeros de la apuesta
+
+$cantidadPremios=2500;
+$combGand="30-39-5-24-36-43";
+$numReintegro="8";
+$numeroGand=explode("-", $combGand);
+$categoria = "";
+
+foreach ($numero as $clave => $subArray)  {
+    echo "Clave principal: $clave\n";
+    foreach ($subArray  as $indice => $valor) {
+        echo "  Índice $indice =>  $valor\n";
+        $reintegro=$subArray[count($subArray) - 1];  //8
+        $combApuesta = array_slice($subArray, 1, count($subArray) - 1); //30-39-5-24-36-43
+        $aciertos = count(array_intersect($combApuesta, $numeroGand));
+
+
+        if($aciertos == 6){
+            $categoria="6";
+            $ganador=$clave;
+            
+        }
+    }
+    echo "\n";
+}
 
 
 ?>
