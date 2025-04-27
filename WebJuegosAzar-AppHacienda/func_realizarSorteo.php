@@ -1,17 +1,18 @@
 <?php 
 session_start();
 include_once "conexionBaseDeDatos.php";
-include_once "BBDD_obtenerApost.php";
 /*****************************PROGRAMA PRINCIPAL************************* */
 if(isset($_POST['generar'])){
-    $_SESSION["numGand"]=generarCombinacion();
+    //$_SESSION["numGand"]=generarCombinacion();
+    $_SESSION["numGand"]="30-39-5-24-36-43-8";
     header("Location: ./realizarSorteo.php");
     exit;
 }else if(isset($_POST['realizarSorteo'])){
     if(!empty($_POST['combGanadora'])){
         insertarCombinacionGand();
-        //Aqui prodria ir la funcion para calcular la recaudacion de los premios
-        unset($_SESSION["numGand"]);
+        repartirPremio();
+        //unset($_SESSION["numGand"]);
+        //unset($_SESSION['ganadores']);
         header("Location: ./realizarSorteo.php");
         exit;
     }else{
@@ -26,13 +27,11 @@ else if(isset($_POST['atras']))
     header("Location: ./inicio.php");
     exit;
 }   
-/*************************************************************************** */
 
-//Funcion para insertar la recaudacion de premios en la tabla 
-//Recordar que en la recaudacion total de las apuestas la mitad se ira a los premios para los ganadores,
-//en esa mitad un 50% se va a la catg 6, 20% a la catg 5C, 15% a la catg 5, 10% a la catg 4 y un 5% a la catg 3.
-
-
+//1.- Genero la combinacion ganadora con la funcion generarCombinacion() y lo llamo en el Programa principal
+//cuando el usuario presione el boton "Generar".
+/**************************************************************************************** */
+/**************************GENERA LA COMBINACION GANADORA******************************** */
 function generarCombinacion(){
     $numAleatorios=array();
     
@@ -49,15 +48,14 @@ function generarCombinacion(){
     return $cadenaGan;
 }
 /********************************************************************************************/
-function calcularRecaudacionPremio($num){
-    $cantidadTotalRec=obtenerRecaudacion($num);
-    return ($cantidadTotalRec*0.50);//El 50% recaudación se dedica a premios.
-}
+//2.- Una vez que el usuario presione el boton "Generar", en el Programa princial, llamo a la 
+//funcion insertarCombinacionGand() para actualizar la tabla sorteo  en el campo  COMBINACION_GANADORA, RECAUDACION_PREMIOS y ACTIVO.
 /******************************************************************************************** */
+/*FUNCION PARA INSERTAR LA COMBINACION GANADORA Y LA RECAUDACION_PREMIOS A LA TABLA sorteo*/
 function insertarCombinacionGand(){
     $combinacion=$_SESSION["numGand"];
     $sorteoSele=$_POST['sorteo'];
-    $numeroDelSorteo=calcularRecaudacionPremio($sorteoSele);
+    $numeroDelSorteo=recaudacionPremio($sorteoSele);
     //$valido=false;
     $conn=conexionBBDD();
     try{
@@ -82,8 +80,13 @@ function insertarCombinacionGand(){
         }
     //return $valido;
 }
+/*OBTENGO LA RECAUDACION PARA PREMIOS*/
+function recaudacionPremio($num){
+    $cantidadTotalRec=obtenerRecaudacion($num);
+    return ($cantidadTotalRec*0.50);//El 50% recaudación se dedica a premios.
+}
 
-/********************************************************************************************* */
+/*OBTENGO LA RECAUDACION TOTAL*/
 function obtenerRecaudacion($numeroSort){
     $conn=conexionBBDD();
     try{
@@ -108,43 +111,239 @@ function obtenerRecaudacion($numeroSort){
 
 }
 /********************************************************************************************************* */
+//3.- Despues de llamamos a la funcion repartirPremio() en el Programa principal para gestionar lo que es la reparticion de la cantidad
+//ganada por cada apostador y actualizar el saldo de este en su tabla, tambien se actualiza la tabla apuestas en el campo
+// de IMPORTE_PREMIO y CATEGORIA_PREMIO.
+/*********************************************INICIO***************************************************** */
+/*********************************FUNCION PRINCIPAL PARA LA REPARTICION DE LOS PREMIOS A LOS APOSTADORES****************************************** */
 
 
-//Funcion para actualizar el saldo de las cuentas de los apostantes en base a los premios obtenidos.
+function repartirPremio(){
+    //premio de 500
+    $todosLosGand=$_SESSION['ganadores'];//array(3) { ["6R"]=> array(1) { [0]=> int(1) } [5]=> array(1) { [0]=> int(3) [1]=> int(5) } ["5R"]=> array(1) { [0]=> int(4) } }
+   $ganadores=calculoPremio(); //array(9) { ["6R"]=> float(251) [6]=> int(0) ["5R"]=> float(76) [5]=> float(37.5) ["4R"]=> int(0) [4]=> int(0) ["3R"]=> int(0) [3]=> int(0) ["R"]=> int(0) }
+
+   foreach($todosLosGand as $categ=> $subArray){
+        foreach($subArray as $indice => $NAPUESTA){
+            if(isset($ganadores[$categ])){
+                $premioAsignado = $ganadores[$categ];
+                //echo "Al número de apuesta $NAPUESTA le corresponde un premio de $premioAsignado € en la categoría $categ";
+                insertarPremio($categ, $NAPUESTA, $premioAsignado);
+            }
+        }
+   }
+   var_dump($todosLosGand);
+}
+
+function calculoPremio(){
+    $sorteoSele=$_POST['sorteo'];//S001
+    $cantidadPremios=recaudacionPremio($sorteoSele);//500
+    $premios = [ "6R" => 0, "6" => 0, "5R" => 0, "5" => 0, "4R" => 0, "4" => 0, "3R" => 0, "3" => 0, "R" => 0 ];
+    $ganadores=numeroGandPorCatg(); //array(9) { ["6R"]=> int(1) [6]=> int(0) ["5R"]=> int(1) [5]=> int(2) ["4R"]=> int(0) [4]=> int(0) ["3R"]=> int(0) [3]=> int(0) ["R"]=> int(0) }
 
 
-//$numSorteo=$_POST['sorteo'];
-    //$cantidadPremios=calcularRecaudacionPremio($numSorteo);//2500
+    foreach($ganadores as $catg => $cant){
+        if ($cant != 0){
+            if(($catg == "6") || ($catg == "6R")){
+                if($catg == "6R"){
+                    $premios[$catg]=(($cantidadPremios * 0.50) + ($cant * 1)) / $cant;
+                }else{
+                    $premios[$catg]=($cantidadPremios*0.50) / $cant;
+                }
+            }else if(($catg == "5") || ($catg == "5R")){
+                if($catg== "5R"){
+                    $premios[$catg]=(($cantidadPremios * 0.15) + ($cant * 1)) / $cant;
+                }else{
+                    $premios[$catg]=($cantidadPremios*0.15) / $cant;
+                }
+            }else if(($catg == "4") || ($catg == "4R")){
+                if($catg== "4R"){
+                    $premios[$catg]=(($cantidadPremios * 0.10) + ($cant * 1)) / $cant;
+                }else{
+                    $premios[$catg]=($cantidadPremios*0.10) / $cant;
+                }
+            }else if(($catg == "3") || ($catg == "3R")){
+                if($catg== "3R"){
+                    $premios[$catg]=(($cantidadPremios * 0.05) + ($cant * 1)) / $cant;
+                }else{
+                    $premios[$catg]=($cantidadPremios*0.05) / $cant;
+                }
+            }
+        }
+        
+    }
+    var_dump($premios);
+    return $premios;
+}
 
-    //$combGand=explode("-", $_SESSION["numGand"]);
-    //$numReintegro=array_slice($combGand, count($combGand)-1);//Combinacion ganadora
+/*BBDD PARA INSERTAR LA CANTIDAD DE PREMIO GANADA*/
+function insertarPremio($catg, $clave, $premio){
+    $conn=conexionBBDD();
+    try{
+        $conn->beginTransaction();
+        $stmt = $conn->prepare("UPDATE apuestas SET IMPORTE_PREMIO = :impPremio , CATEGORIA_PREMIO=:catgP WHERE NAPUESTA = :numAp"); 
+        $stmt->bindParam(':numAp', $clave);
+        $stmt->bindParam(':impPremio', $premio);//actualiza la recaudacion para premios
+        $stmt->bindParam(':catgP', $catg);//agrega la combinacion ganadora
+        
+        if($stmt->execute()){
+            actualizarSaldoPremioApos($conn, $clave);
+        }
+        $conn->commit();
+    }catch(PDOException $e)
+        {
+            if ($conn->inTransaction()) {
+                $conn->rollBack(); 
+            }
+            echo "Error: " . $e->getMessage();
+        }
+}
 
-    //$combGand=array_slice($combGand, 1, count($apuesta)-1) //30-39-5-24-36-43
-    $numero=obetenerNumeroApost();//devuelve los 7 numeros de la apuesta
+function actualizarSaldoPremioApos($conn, $clave){
+   
+    try {
+        // sin beginTransaction() aqui
+        //Busca el premio e identificar el dni del apostante
+        $stmt = $conn->prepare("SELECT DNI, IMPORTE_PREMIO 
+                                FROM apuestas 
+                                WHERE NAPUESTA = :numAp");
+        $stmt->bindParam(':numAp', $clave);
+        $stmt->execute();
+        $datos = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$cantidadPremios=2500;
-$combGand="30-39-5-24-36-43";
-$numReintegro="8";
-$numeroGand=explode("-", $combGand);
-$categoria = "";
+        if ($datos) {
+            $dni = $datos['DNI'];
+            $premio = $datos['IMPORTE_PREMIO'];
 
-foreach ($numero as $clave => $subArray)  {
-    echo "Clave principal: $clave\n";
-    foreach ($subArray  as $indice => $valor) {
-        echo "  Índice $indice =>  $valor\n";
-        $reintegro=$subArray[count($subArray) - 1];  //8
-        $combApuesta = array_slice($subArray, 1, count($subArray) - 1); //30-39-5-24-36-43
-        $aciertos = count(array_intersect($combApuesta, $numeroGand));
+            //Actualizo el saldo sumando el premio
+            $stmtUpdate = $conn->prepare("UPDATE apostante 
+                                          SET SALDO = SALDO + :premio 
+                                          WHERE DNI = :dni");
+            $stmtUpdate->bindParam(':premio', $premio);
+            $stmtUpdate->bindParam(':dni', $dni);
+            $stmtUpdate->execute();
+        }
+
+        
+    } catch (PDOException $e) {
+        throw $e; // Dejo que insertarPremio() se encargue
+    }
+}
+/*************************************************************FIN******************************************************************************* */
 
 
+function numeroGandPorCatg(){
+    //$_SESSION["numGand"] --> "30-39-5-24-36-43-8"
+    $premios = [ "6R" => 0, "6" => 0, "5R" => 0, "5" => 0, "4R" => 0, "4" => 0, "3R" => 0, "3" => 0, "R" => 0 ];
+    $_SESSION['ganadores'] = array();
+    $combGand=array_map('intval', explode("-", $_POST['combGanadora'])); //[30, 39, 5, 24, 36, 43, 8]
+    $numReintegro=array_pop($combGand); //Combinacion ganadora 8 ; array_pop() se usa para quitar el último elemento de un array y devolverlo. También modifica el array original.
+
+    $numeroAp=obetenerNumeroApost();//devuelve los 7 numeros de la apuesta ["30", "39", "5", "24", "36", "43", "8"] todo tipo string
+                                    // el cual lo debo recorrer con un foreach
+   
+
+    foreach ($numeroAp as $clave => $subArray)  {
+        $subArray=array_map('intval', $subArray);//[30, 39, 5, 24, 36, 43, 8]
+        $reintegro=array_pop($subArray);// me deuelve el numero del reintegro del array.
+        
+        //var_dump($reintegro) ;
+        $aciertos = count(array_intersect($subArray, $combGand));
+        
         if($aciertos == 6){
-            $categoria="6";
-            $ganador=$clave;
-            
+            if($reintegro == $numReintegro){
+                $_SESSION['ganadores']["6R"][] = $clave;
+                $premios["6R"]++;
+            }else{
+                $_SESSION['ganadores']["6"][] = $clave;
+                $premios["6"]++;
+            }
+        }else if($aciertos == 5){
+            if($reintegro == $numReintegro){
+                $_SESSION['ganadores']["5R"][] = $clave;
+                $premios["5R"]++;
+            }else{
+                $_SESSION['ganadores']["5"][] = $clave;
+                $premios["5"]++;
+            }
+        }else if($aciertos == 4){  
+            if($reintegro == $numReintegro){
+                $_SESSION['ganadores']["4R"][] = $clave;
+                $premios["4R"]++;
+            }else{
+                $_SESSION['ganadores']["4"][] = $clave;
+                $premios["4"]++;
+            }
+
+        }else if($aciertos == 3){
+            if($reintegro == $numReintegro){
+                $_SESSION['ganadores']["3R"][] = $clave;
+                $premios["3R"]++;
+            }else{
+                $_SESSION['ganadores']["3"][] = $clave;
+                $premios["3"]++;
+            }
+
+        }else if($aciertos == 0){
+            if($reintegro == $numReintegro){
+                $_SESSION['ganadores']["R"][] = $clave;
+                $premios["R"]++;
+            }
         }
     }
-    echo "\n";
+    
+    //var_dump($_SESSION['ganadores']);
+    //var_dump($premios);
+    return $premios;
 }
+
+
+function obetenerNumeroApost(){
+    $numSort=$_POST['sorteo'];
+    $numeros=obetenerApuestas($numSort);
+    $arrayApuest=array();
+    
+    foreach($numeros as $index => $apuesta){
+        //lo que hago aqui es que ubico la clave NAPUESTA al nuevo arrayApuest y le asigno el valor con array_slice a partir del
+        //1 al total del array para solo obtener los numero del voleto, excluyendo NAPUESTA.
+        //Luego con array_values elimino las claves
+        $arrayApuest[$apuesta['NAPUESTA']]=array_values(array_slice($apuesta, 1, count($apuesta)-1));//aqui puedo cambiar en count($apuesta) por un numero menos para obetenr solo los digitos sin el reintegro 
+    }
+    return $arrayApuest;
+}
+
+function obetenerApuestas($numSorte){
+    $conn=conexionBBDD();
+    try{
+        //$conn->beginTransaction(); 
+        //no es necesario, las transacciones se usan generalmente para operaciones que modifican datos INSERT, UPDATE, DELETE.
+
+        $stmt=$conn->prepare("SELECT NAPUESTA ,N1, N2, N3, N4, N5, N6, R FROM apuestas WHERE NSORTEO=:numSort");
+        $stmt->bindParam(':numSort', $numSorte);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $numSorteos=$stmt->fetchAll();
+
+
+    }catch(PDOException $e)
+        {
+            if ($conn->inTransaction()) {
+                $conn->rollBack();  // Solo hacer rollBack si hay transacción activa
+            }
+            echo "Error: " . $e->getMessage();
+        }
+        $conn = null;
+
+    return $numSorteos;
+
+
+}
+
+
+/*********************************************************************************FIN************************************************************* */
+/************************************************************************************************************************************************* */
+
+
 
 
 ?>
