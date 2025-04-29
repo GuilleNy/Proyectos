@@ -6,7 +6,7 @@ if(!verificarSesion())
 {
 	header("Location: ./login.php");
 }
-
+print_r($_SESSION);
 ?>
 
 <html lang="es">
@@ -28,15 +28,15 @@ if(!verificarSesion())
                 </div>
                 <div class="card-body text-center">
                     <div>
-                        <input type="submit" value="Realizar Apuesta" name="altaSort" class="btn btn-primary">
+                        <input type="submit" value="Realizar Apuesta" name="realizarApuesta" class="btn btn-primary">
                     </div>
                     <hr>
                     <div>
-                        <input type="submit" value="Cargar Saldo" name="realizarSort" class="btn btn-primary">
+                        <input type="submit" value="Cargar Saldo" name="cargarSaldo" class="btn btn-primary">
                     </div>
                     <hr>
                     <div>
-                        <input type="submit" value="Consultar Apuesta" name="consultarSort" class="btn btn-primary">
+                        <input type="submit" value="Consultar Apuesta" name="consultarApuesta" class="btn btn-primary">
                     </div>
                 </div>
                 <div class="card-footer text-center">
@@ -50,7 +50,7 @@ if(!verificarSesion())
 
     <?php
 
-    print_r($_SESSION);
+    
     
         if(isset($_POST['logout'])){
             if(isset($_SESSION["VstUsuario"]) && isset($_SESSION["VstContraseña"])){

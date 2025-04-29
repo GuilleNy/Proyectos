@@ -1,12 +1,12 @@
 <?php
 
 
-if (isset($_POST['altaSort'])){
-    header("Location: ./altaSorteo.php");
-}else if(isset($_POST['realizarSort'])){
+if (isset($_POST['realizarApuesta'])){
+    header("Location: ./realizarApuesta.php");
+}else if(isset($_POST['cargarSaldo'])){
     header("Location: ./realizarSorteo.php");
-}else if(isset($_POST['consultarSort'])){
-    header("Location: ./consultarSorteo.php");
+}else if(isset($_POST['consultarApuesta'])){
+    header("Location: ./consultarApuestas.php");
 }
 
 ?>
