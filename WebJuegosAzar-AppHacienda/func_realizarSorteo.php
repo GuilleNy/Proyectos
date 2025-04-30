@@ -6,26 +6,28 @@ if(isset($_POST['generar'])){
     //$_SESSION["numGand"]=generarCombinacion();
     $_SESSION["numGand"]="30-39-5-24-36-43-8";
     header("Location: ./realizarSorteo.php");
-    exit;
+    exit();
 }else if(isset($_POST['realizarSorteo'])){
     if(!empty($_POST['combGanadora'])){
         insertarCombinacionGand();
         repartirPremio();
-        //unset($_SESSION["numGand"]);
-        //unset($_SESSION['ganadores']);
+                //unset($_SESSION["numGand"]);
+                //unset($_SESSION['ganadores']);
+        
+
         header("Location: ./realizarSorteo.php");
-        exit;
+        exit();
     }else{
         $_SESSION['mensajeSorteoFail']="Debes generar una Combinacion Ganadora";
         header("Location: ./realizarSorteo.php");
-        exit;
+        exit();
     } 
 }
 else if(isset($_POST['atras']))
 {
     unset($_SESSION["numGand"]);
     header("Location: ./inicio.php");
-    exit;
+    exit();
 }   
 
 //1.- Genero la combinacion ganadora con la funcion generarCombinacion() y lo llamo en el Programa principal
@@ -120,19 +122,19 @@ function obtenerRecaudacion($numeroSort){
 
 function repartirPremio(){
     //premio de 500
-    $todosLosGand=$_SESSION['ganadores'];//array(3) { ["6R"]=> array(1) { [0]=> int(1) } [5]=> array(1) { [0]=> int(3) [1]=> int(5) } ["5R"]=> array(1) { [0]=> int(4) } }
-   $ganadores=calculoPremio(); //array(9) { ["6R"]=> float(251) [6]=> int(0) ["5R"]=> float(76) [5]=> float(37.5) ["4R"]=> int(0) [4]=> int(0) ["3R"]=> int(0) [3]=> int(0) ["R"]=> int(0) }
+    $todosLosGand=$_SESSION['ganadores'];//array(4) { ["6R"]=> array(1) { [0]=> int(1) } [5]=> array(2) { [0]=> int(3) [1]=> int(5) } ["5R"]=> array(1) { [0]=> int(4) } [6]=> array(1) { [0]=> int(6) } }
+    $ganadores=calculoPremio(); //array(9) { ["6R"]=> float(126) [6]=> float(125) ["5R"]=> float(26) [5]=> float(25) ["4R"]=> int(0) [4]=> int(0) ["3R"]=> int(0) [3]=> int(0) ["R"]=> int(0) }
 
-   foreach($todosLosGand as $categ=> $subArray){
-        foreach($subArray as $indice => $NAPUESTA){
-            if(isset($ganadores[$categ])){
-                $premioAsignado = $ganadores[$categ];
-                //echo "Al número de apuesta $NAPUESTA le corresponde un premio de $premioAsignado € en la categoría $categ";
-                insertarPremio($categ, $NAPUESTA, $premioAsignado);
+    foreach($todosLosGand as $categ=> $subArray){
+            foreach($subArray as $indice => $NAPUESTA){
+                if(isset($ganadores[$categ])){
+                    $premioAsignado = $ganadores[$categ];
+                    //echo "Al número de apuesta $NAPUESTA le corresponde un premio de $premioAsignado € en la categoría $categ ";
+                    insertarPremio($categ, $NAPUESTA, $premioAsignado);
+                }
             }
-        }
-   }
-   var_dump($todosLosGand);
+    }
+    //var_dump($todosLosGand);
 }
 
 function calculoPremio(){
@@ -144,35 +146,28 @@ function calculoPremio(){
 
     foreach($ganadores as $catg => $cant){
         if ($cant != 0){
-            if(($catg == "6") || ($catg == "6R")){
-                if($catg == "6R"){
-                    $premios[$catg]=(($cantidadPremios * 0.50) + ($cant * 1)) / $cant;
-                }else{
-                    $premios[$catg]=($cantidadPremios*0.50) / $cant;
-                }
-            }else if(($catg == "5") || ($catg == "5R")){
-                if($catg== "5R"){
-                    $premios[$catg]=(($cantidadPremios * 0.15) + ($cant * 1)) / $cant;
-                }else{
-                    $premios[$catg]=($cantidadPremios*0.15) / $cant;
-                }
-            }else if(($catg == "4") || ($catg == "4R")){
-                if($catg== "4R"){
-                    $premios[$catg]=(($cantidadPremios * 0.10) + ($cant * 1)) / $cant;
-                }else{
-                    $premios[$catg]=($cantidadPremios*0.10) / $cant;
-                }
-            }else if(($catg == "3") || ($catg == "3R")){
-                if($catg== "3R"){
-                    $premios[$catg]=(($cantidadPremios * 0.05) + ($cant * 1)) / $cant;
-                }else{
-                    $premios[$catg]=($cantidadPremios*0.05) / $cant;
-                }
+            if($catg == "6" || $catg == "6R"){
+                $premio_base = ($cantidadPremios * 0.50) / ($ganadores["6"] + $ganadores["6R"]);
+            } elseif($catg == "5" || $catg == "5R"){
+                $premio_base = ($cantidadPremios * 0.15) / ($ganadores["5"] + $ganadores["5R"]);
+            } elseif($catg == "4" || $catg == "4R"){
+                $premio_base = ($cantidadPremios * 0.10) / ($ganadores["4"] + $ganadores["4R"]);
+            } elseif($catg == "3" || $catg == "3R"){
+                $premio_base = ($cantidadPremios * 0.05) / ($ganadores["3"] + $ganadores["3R"]);
+            } else {
+                $premio_base = 0;
+            }
+    
+            // A cada categoría con reintegro le sumas 1 €
+            if (str_ends_with($catg, "R")) {
+                $premios[$catg] = $premio_base + 1;
+            } else {
+                $premios[$catg] = $premio_base;
             }
         }
-        
     }
-    var_dump($premios);
+    
+    //var_dump($premios);
     return $premios;
 }
 
@@ -214,7 +209,7 @@ function actualizarSaldoPremioApos($conn, $clave){
         if ($datos) {
             $dni = $datos['DNI'];
             $premio = $datos['IMPORTE_PREMIO'];
-
+            
             //Actualizo el saldo sumando el premio
             $stmtUpdate = $conn->prepare("UPDATE apostante 
                                           SET SALDO = SALDO + :premio 
@@ -234,8 +229,8 @@ function actualizarSaldoPremioApos($conn, $clave){
 
 function numeroGandPorCatg(){
     //$_SESSION["numGand"] --> "30-39-5-24-36-43-8"
-    $premios = [ "6R" => 0, "6" => 0, "5R" => 0, "5" => 0, "4R" => 0, "4" => 0, "3R" => 0, "3" => 0, "R" => 0 ];
-    $_SESSION['ganadores'] = array();
+    $premios = [ "6R" => 0, "6" => 0, "5R" => 0, "5" => 0, "4R" => 0, "4" => 0, "3R" => 0, "3" => 0, "R" => 0 ];// es un array que tiene en cada clave el numero de ganadores por categoria.
+    $_SESSION['ganadores'] = array();//Es un array que como clave tiene la categoria y dentro de esa clave hay un sub array de el num de clave del apostante.
     $combGand=array_map('intval', explode("-", $_POST['combGanadora'])); //[30, 39, 5, 24, 36, 43, 8]
     $numReintegro=array_pop($combGand); //Combinacion ganadora 8 ; array_pop() se usa para quitar el último elemento de un array y devolverlo. También modifica el array original.
 
@@ -315,16 +310,11 @@ function obetenerNumeroApost(){
 function obetenerApuestas($numSorte){
     $conn=conexionBBDD();
     try{
-        //$conn->beginTransaction(); 
-        //no es necesario, las transacciones se usan generalmente para operaciones que modifican datos INSERT, UPDATE, DELETE.
-
         $stmt=$conn->prepare("SELECT NAPUESTA ,N1, N2, N3, N4, N5, N6, R FROM apuestas WHERE NSORTEO=:numSort");
         $stmt->bindParam(':numSort', $numSorte);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $numSorteos=$stmt->fetchAll();
-
-
     }catch(PDOException $e)
         {
             if ($conn->inTransaction()) {
@@ -333,10 +323,7 @@ function obetenerApuestas($numSorte){
             echo "Error: " . $e->getMessage();
         }
         $conn = null;
-
     return $numSorteos;
-
-
 }
 
 

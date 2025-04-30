@@ -18,13 +18,14 @@ include_once "BBDD_consultarSorteo.php";
             <!-- Aplicación -->
             <div class="card border-success mb-3 mx-auto" style="max-width: 30rem;">
                 <div class="card-header text-center">
-                    <h2><b>ALTA SORTEO</b></h2>
+                    <h2><b>CONSULTAR SORTEO</b></h2>
                 </div>
                 <div class="card-body ">
                     <div class="mb-3">
                         <div class="mb-3 text-center" >
                             <label for="sorteo" class="form-label"><b>SELECCIONA SORTEO:</b></label>
                             <select id="sorteo" name="sorteo" class="custom-select">
+                                <option value="" disabled selected>-- Selecciona un sorteo --</option>
                                 <?php
                                 
                                 foreach ($allActivos as $fila)

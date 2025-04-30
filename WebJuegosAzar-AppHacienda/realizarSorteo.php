@@ -24,6 +24,7 @@ include_once "BBDD_realizarSorteo.php";
                     <div class="mb-3">
                         <label for="sorteo" class="form-label"><b>Sorteos Activos:</b></label>
                         <select id="sorteo" name="sorteo" class="custom-select">
+                            <option value="" disabled selected>-- Selecciona un sorteo --</option>
                             <?php
                             
                             foreach ($sortActivos as $fila)

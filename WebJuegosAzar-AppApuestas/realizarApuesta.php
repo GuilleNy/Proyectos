@@ -1,6 +1,8 @@
 <?php 
 session_start();
 include_once "BBDD_realizarApuesta.php";
+
+
 ?>
 
 <html lang="es">
@@ -25,6 +27,7 @@ include_once "BBDD_realizarApuesta.php";
                         <div class="mb-3 text-center" >
                             <label for="sorteo" class="form-label"><b>SELECCIONA SORTEO:</b></label>
                             <select id="sorteo" name="sorteo" class="custom-select">
+                                <option value="" disabled selected>-- Selecciona un sorteo --</option>
                                 <?php
                                 
                                 foreach ($allActivos as $fila)
@@ -39,32 +42,32 @@ include_once "BBDD_realizarApuesta.php";
                         <hr>
                         <div class="mb-3 "  >
                             <label for="n1" class="form-label"><b>N1:</b></label>
-                            <input type="text" class="form-control" name="n1" value="" > <!-- < ?= ... ?> es una forma corta de escribir: < ?php echo ...; ?> -->
+                            <input type="number" class="form-control" min="1" max="49" name="n1" > 
                         </div>
                         <hr>
                         <div class="mb-3">
                             <label for="n2" class="form-label"><b>N2:</b></label>
-                            <input type="text" class="form-control" name="n2" value="" >
+                            <input type="number" class="form-control" min="1" max="49" name="n2" >
                         </div>
                         <hr>
                         <div class="mb-3">
                             <label for="n3" class="form-label"><b>N3:</b></label>
-                            <input type="text" class="form-control" name="n3" value="" >
+                            <input type="number" class="form-control" min="1" max="49" name="n3" >
                         </div>
                         <hr>
                         <div class="mb-3">
                             <label for="n4" class="form-label"><b>N4:</b></label>
-                            <input type="text" class="form-control" name="n4" value="" >
+                            <input type="number" class="form-control" min="1" max="49" name="n4" >
                         </div>
                         <hr>
                         <div class="mb-3">
                             <label for="n5" class="form-label"><b>N5:</b></label>
-                            <input type="text" class="form-control" name="n5" value="" >
+                            <input type="number" class="form-control" min="1" max="49" name="n5" >
                         </div>
                         <hr>
                         <div class="mb-3">
                             <label for="n6" class="form-label"><b>N6:</b></label>
-                            <input type="text" class="form-control" name="n6" value="" >
+                            <input type="number" class="form-control" min="1" max="49" name="n6" >
                         </div>
                     </div>
                     <hr>

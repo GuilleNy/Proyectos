@@ -9,14 +9,22 @@ if(!verificarSesion())
     exit;// esto  detiene la ejecución del script.
 }
 /************************ALERTA***************************** */
-if(isset( $_SESSION['mensajeSorteoFail'])){
-    echo "<div class='alert alert-danger'>" . $_SESSION['mensajeSorteoFail'] . "</div>";
-    unset($_SESSION['mensajeSorteoFail']); 
+if (isset($_SESSION['mensajeApuesta'])) {
+    echo "<div class='alert alert-success'>" . $_SESSION['mensajeApuesta'] . "</div>";
+    unset($_SESSION['mensajeApuesta'] ); 
+
+
+}else if(isset( $_SESSION['mensajeApuestaFail']) ){
+    echo "<div class='alert alert-danger'>" . $_SESSION['mensajeApuestaFail'] . "</div>";
+    unset($_SESSION['mensajeApuestaFail']); 
+}else if(isset( $_SESSION['mensajeLlenarCampo']) ){
+    echo "<div class='alert alert-danger'>" . $_SESSION['mensajeLlenarCampo'] . "</div>";
+    unset($_SESSION['mensajeLlenarCampo']); 
 }
 
 
 $allActivos=todosLosSorteos();
-var_dump($allActivos);
+//var_dump($allActivos);
 function todosLosSorteos(){
     $conn=conexionBBDD();
 
