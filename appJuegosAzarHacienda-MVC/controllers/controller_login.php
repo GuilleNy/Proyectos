@@ -13,11 +13,11 @@
         $usu = $_POST["usuario"];
         $contra = $_POST["contra"];
         require_once ("models/model_login.php");
-        $resultado = verificarDatos($usu,$contra);
-        if($resultado == null)
-            trigger_error("Login Incorrecto");
-            
-        else
+        $resultado = verificarDatos($usu,$contra,$conn);
+        if($resultado == null){
+            header("Location: controllers/controller_registro.php");
+            exit();
+        }else
         {
             $usuarioLogin = $resultado["DNI"];
             $contraLogin= $resultado["APELLIDO"];

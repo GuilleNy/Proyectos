@@ -30,7 +30,7 @@ function todosLosSorteos($conn){
         {
             echo "Error: " . $e->getMessage();
         }
-        $conn = null;
+        
 
     return $numSorteos;
 }

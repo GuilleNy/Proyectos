@@ -1,9 +1,9 @@
 <?php
-function verificarDatos($usuario, $contraseña) 
+function verificarDatos($usuario, $contraseña,$conn) 
 {
   
     try{
-        $stmt=$GLOBALS["conn"]->prepare("SELECT DNI, APELLIDO FROM empleado WHERE DNI = :usu AND APELLIDO = :contra");
+        $stmt=$conn->prepare("SELECT DNI, APELLIDO FROM empleado WHERE DNI = :usu AND APELLIDO = :contra");
         $stmt->bindParam(':usu', $usuario);
         $stmt->bindParam(':contra', $contraseña);
         $stmt->execute();
@@ -13,7 +13,7 @@ function verificarDatos($usuario, $contraseña)
         {
             echo "Error: " . $e->getMessage();
         }
-        $conn = null;
+
     return $resultado;
 }
 
