@@ -6,7 +6,7 @@ function depurar($cadena){
     $cadena=htmlspecialchars($cadena);
     return $cadena;
 }
-/*
+
 function customError($errno, $errstr) {
     echo "<b>Error:</b> [$errno] $errstr<br>";
     echo "Ending Script";
@@ -20,5 +20,5 @@ function errores($errno, $errstr) {
 }
 
 set_error_handler("errores");
-*/
+
 ?>

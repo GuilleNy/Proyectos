@@ -17,15 +17,15 @@
                 </div>
                 <div class="card-body text-center">
                     <div>
-                        <a href="../views/view_altaSorteo.php" class="btn btn-primary">Alta de Sorteos</a>
+                        <a href="../controllers/controller_altaSorteo.php" class="btn btn-primary">ALTA DE SORTEO</a>
                     </div>
                     <hr>
                     <div>
-                        <input type="submit" value="Realizar Sorteo" name="realizarSort" class="btn btn-primary">
+                        <a href="../controllers/controller_realizarSorteo.php" class="btn btn-primary">REALIZAR SORTEO</a>
                     </div>
                     <hr>
                     <div>
-                        <input type="submit" value="Consultar Sorteo" name="consultarSort" class="btn btn-primary">
+                        <a href="../controllers/controller_consultarSorteo.php" class="btn btn-primary">CONSULTAR SORTEO</a>
                     </div>
                 </div>
                 <div class="card-footer text-center">

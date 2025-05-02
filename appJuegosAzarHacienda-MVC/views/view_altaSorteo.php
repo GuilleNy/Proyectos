@@ -23,7 +23,7 @@
                     <hr>
                     <div>
                         <input type="submit" value="Dar alta Sorteo" name="darAlta" class="btn btn-primary">
-                        <a href="../views/view_inicio.php" class="btn btn-warning">Volver al inicio</a>
+                        <a href="../controllers/controller_inicio.php" class="btn btn-warning">Volver al inicio</a>
                     </div>
                 </div>
             </div>
