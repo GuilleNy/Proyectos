@@ -74,4 +74,41 @@ function eliminarSesionConsultarSorteo(){
     unset($_SESSION["sort"]);
 }
 
+
+
+
+function generarComb(){
+    //$_SESSION["numGand"]=generarCombinacion();
+    $_SESSION["numGand"]="30-39-5-24-36-43-8";
+    
+}
+
+function alertaRealizarSorteo(){
+    if (isset($_SESSION['mensajeSorteo'])) {
+        echo "<div class='alert alert-success'>" . $_SESSION['mensajeSorteo'] . "</div>";
+        unset($_SESSION['mensajeSorteo']); // Borra el mensaje después de mostrarlo
+    }else if(isset($_SESSION['mensajeSorteoFail'])) {
+        echo "<div class='alert alert-danger'>" . $_SESSION['mensajeSorteoFail'] . "</div>";
+        unset($_SESSION['mensajeSorteoFail']); 
+    }
+   
+}
+
+function alertaSorteoRealizado(){
+    $_SESSION['mensajeSorteo']="Sorteo realizado correctamente.";
+
+}
+function alertaSorteoNoRealizado(){
+    $_SESSION['mensajeSorteoFail']="Debes generar una Combinacion Ganadora";
+    //header("Location: ./realizarSorteo.php");
+    //exit();
+}
+function unsetRealizarSorteo(){
+    unset($_SESSION["numGand"]);
+    unset($_SESSION['ganadores']);
+}
+
+
+
+
 ?>
