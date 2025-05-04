@@ -7,7 +7,7 @@ include_once "otrasFunciones.php";
 
 /*****************************PROGRAMA PRINCIPAL************************* */
 if(isset($_POST['registro'])){
-    if(validar()){// si validar es true realiza la recoleccion de datos
+    if(validarRegistro()){// si validar es true realiza la recoleccion de datos
         list($dni, $nombre, $apellido, $email)=recogerDatosRegistro();
         ingresarRegistro($dni, $nombre, $apellido, $email);
     }else{//si validar es false entonces manda un mensaje de error.
@@ -22,7 +22,7 @@ if(isset($_POST['registro'])){
 /*************************************************************************** */
 
 
-function validar(){
+function validarRegistro(){
     $enviar=true;
     if(empty(trim($_POST['dni']))){
         $enviar=false;
