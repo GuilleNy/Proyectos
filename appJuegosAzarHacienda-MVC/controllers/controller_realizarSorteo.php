@@ -5,7 +5,7 @@
     require_once ("controller_comunes.php");
 
     
-    //alertaRealizarSorteo(); no funciona las alertas
+    alertaRealizarSorteo();
     if(!verificarSesion()){
         eliminarSesionSinRedirigir();
         header("Location: ../index.php");
@@ -18,6 +18,8 @@
     $sortActivos=sorteosActivos($conn);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        seleccionadoRealizarSorteo();
+
         if(isset($_POST['generar'])){
             generarComb();
             
@@ -28,13 +30,15 @@
                 
                 repartirPremio( $conn);
                 var_dump($_SESSION['ganadores']);
-                //alertaSorteoRealizado();
+                alertaSorteoRealizado();
                
         
             }else{
-                //alertaSorteoNoRealizado();
+                alertaSorteoNoRealizado();
             } 
         }
+    
+    
     }
     
     //var_dump($sortActivos);

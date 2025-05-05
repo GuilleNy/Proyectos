@@ -31,6 +31,18 @@ function eliminarSesionSinRedirigir(){
     
 }
 
+function alertalogin(){
+    if (isset($_SESSION['mensajelogin'])) {
+        echo "<div class='alert alert-warning'>" . $_SESSION['mensajelogin'] . "</div>";
+        unset($_SESSION['mensajelogin']); // Borra el mensaje después de mostrarlo
+    }
+}
+function noLogin(){
+    $_SESSION['mensajelogin'] = "Usuario o contraseña no válido";
+    header("Location: index.php");
+    exit();
+}
+
 function alertaCompletarCampo(){
     if (isset($_SESSION['mensajeRegistro'])) {
         echo "<div class='alert alert-success'>" . $_SESSION['mensajeRegistro'] . "</div>";
@@ -61,6 +73,54 @@ function eliminarSesionConsultarSorteo(){
     unset($_SESSION["sort"]);
 }
 
+function eliminarSsesionesConsultarApuesta(){
+
+    unset($_SESSION["datosApuestas"]);
+}
+
+function nameUsuario(){
+    return $_SESSION["VstUsuario"];
+}
+
+function guardarDatosApuestas($datos) {
+    $_SESSION['datosApuestas'] = $datos;
+}
+
+function apuestaRealizada(){
+
+    $_SESSION['mensajeApuesta']="Apuesta realizada";
+    header("Location: ../controllers/controller_realizarApuesta.php");
+    exit();
+}
+
+function noHaySaldo(){
+    $_SESSION['mensajeApuestaFail']="No tienes saldo en tu cuenta";
+    header("Location: ../controllers/controller_realizarApuesta.php");
+    exit();
+
+}
+
+function rellenarAllCampos(){
+    $_SESSION['mensajeLlenarCampo']="Tienes que rellenar todos los campos sin que esten repetidos entre ellos.";
+    header("Location: ../controllers/controller_realizarApuesta.php");
+    exit();
+}
+
+function alertaRealizarApuesta(){
+    if (isset($_SESSION['mensajeApuesta'])) {
+        echo "<div class='alert alert-success'>" . $_SESSION['mensajeApuesta'] . "</div>";
+        unset($_SESSION['mensajeApuesta'] ); 
+    
+    
+    }else if(isset( $_SESSION['mensajeApuestaFail']) ){
+        echo "<div class='alert alert-danger'>" . $_SESSION['mensajeApuestaFail'] . "</div>";
+        unset($_SESSION['mensajeApuestaFail']); 
+    }else if(isset( $_SESSION['mensajeLlenarCampo']) ){
+        echo "<div class='alert alert-danger'>" . $_SESSION['mensajeLlenarCampo'] . "</div>";
+        unset($_SESSION['mensajeLlenarCampo']); 
+    }
+    
+}
 /*
 function alertaSorteo(){
     if (isset($_SESSION['mensajeAlta'])) {
@@ -73,17 +133,6 @@ function altaSorteoCorrecto(){
     $_SESSION['mensajeAlta']="Alta Completada";
     header("Location: ../controllers/controller_altaSorteo.php");
     exit();
-}
-
-
-
-
-
-
-function generarComb(){
-    //$_SESSION["numGand"]=generarCombinacion();
-    $_SESSION["numGand"]="30-39-5-24-36-43-8";
-    
 }
 
 function alertaRealizarSorteo(){
@@ -106,12 +155,6 @@ function alertaSorteoNoRealizado(){
     //header("Location: ./realizarSorteo.php");
     //exit();
 }
-function unsetRealizarSorteo(){
-    unset($_SESSION["numGand"]);
-    unset($_SESSION['ganadores']);
-}
-
-
 */
 
 ?>

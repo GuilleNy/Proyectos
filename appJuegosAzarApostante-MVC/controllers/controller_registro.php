@@ -11,7 +11,7 @@
                 require_once("../db/db.php");
                 require_once ("../models/model_registro.php");
                 list($dni, $nombre, $apellido, $email)=recogerDatosRegistro();
-                ingresarRegistro($dni, $nombre, $apellido, $email, $conn);
+                ingresarRegistro($dni, $nombre, $apellido, $email);
             }else{//si validar es false entonces manda un mensaje de error.
                 registroNoCompletado();
             }

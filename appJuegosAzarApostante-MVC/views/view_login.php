@@ -31,7 +31,7 @@
                     </div>
                     <hr>
                     <div>
-                        <input type="submit" value="Registrarse" name="registrarse" class="btn btn-primary">
+                        <a href="/appJuegosAzarApostante-MVC/controllers/controller_registro.php" class="btn btn-primary">Registrarse</a>
                     </div>
                 </div>
             </div>

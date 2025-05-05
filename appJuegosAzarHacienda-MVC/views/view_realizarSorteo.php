@@ -23,7 +23,8 @@
                             <?php
                             if ($sortActivos) {
                                 foreach ($sortActivos as $fila) {
-                                    echo "<option value=\"" . $fila['NSORTEO'] . "\">" . $fila['NSORTEO'] . "</option>";
+                                    $seleccionado = (isset($_SESSION['sortSelec']) && $_SESSION['sortSelec'] == $fila['NSORTEO']) ? 'selected' : '';
+                                    echo "<option value=\"" . $fila['NSORTEO'] . "\" $seleccionado>" . $fila['NSORTEO'] . "</option>";
                                 }
                             } else {
                                 echo "<option>No hay sorteos activos</option>";

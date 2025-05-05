@@ -2,7 +2,7 @@
 
 
 function sorteoSeleccionado($num){
-    $dniNum= $_SESSION["VstUsuario"];//esto debe ir en controller_sesison.php
+    $dniNum= nameUsuario();//esto esta en controller_sesison.php
 
     try{
         $stmt=$GLOBALS["conn"]->prepare("SELECT NAPUESTA, DNI, NSORTEO, FECHA, N1, N2, N3, N4, N5, N6, R, IMPORTE_PREMIO, CATEGORIA_PREMIO  FROM apuestas WHERE NSORTEO=:numSorteo AND DNI=:dni");
@@ -19,9 +19,5 @@ function sorteoSeleccionado($num){
     return $numSorteos;
 
 }
-
-
-
-
 
 ?>

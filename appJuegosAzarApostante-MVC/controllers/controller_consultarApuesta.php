@@ -23,10 +23,8 @@
             
             $sorteoSele = $_POST['sorteo'];
             $datos = sorteoSeleccionado($sorteoSele);
-            $_SESSION['datosApuestas'] = $datos;
+            guardarDatosApuestas($datos);
             //var_dump($datos);
-        
-           
         }
     }
     

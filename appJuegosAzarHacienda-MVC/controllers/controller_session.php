@@ -31,6 +31,19 @@ function eliminarSesionSinRedirigir(){
     
 }
 
+
+function alertalogin(){
+    if (isset($_SESSION['mensajelogin'])) {
+        echo "<div class='alert alert-warning'>" . $_SESSION['mensajelogin'] . "</div>";
+        unset($_SESSION['mensajelogin']); // Borra el mensaje después de mostrarlo
+    }
+}
+function noLogin(){
+    $_SESSION['mensajelogin'] = "Usuario o contraseña no válido";
+    header("Location: index.php");
+    exit();
+}
+
 function alertaCompletarCampo(){
     if (isset($_SESSION['mensajeRegistro'])) {
         echo "<div class='alert alert-success'>" . $_SESSION['mensajeRegistro'] . "</div>";
@@ -66,6 +79,16 @@ function altaSorteoCorrecto(){
     exit();
 }
 
+function seleccionadoRealizarSorteo(){
+    if (!empty($_POST['sorteo'])) {
+        $_SESSION['sortSelec'] = $_POST['sorteo'];
+    }
+}
+
+function unsetSeleccionadoRealizarSorteo(){
+    unset($_SESSION["sortSelec"]);
+}
+
 function sorteoSelec($resultado){
     $_SESSION['sort'] = $resultado[0];
 }
@@ -96,16 +119,17 @@ function alertaRealizarSorteo(){
 
 function alertaSorteoRealizado(){
     $_SESSION['mensajeSorteo']="Sorteo realizado correctamente.";
-
+    header("Location: ../controllers/controller_realizarSorteo.php");
+    exit();
 }
 function alertaSorteoNoRealizado(){
     $_SESSION['mensajeSorteoFail']="Debes generar una Combinacion Ganadora";
-    //header("Location: ./realizarSorteo.php");
-    //exit();
+    header("Location: ../controllers/controller_realizarSorteo.php");
+    exit();
 }
 function unsetRealizarSorteo(){
     unset($_SESSION["numGand"]);
-    unset($_SESSION['ganadores']);
+    //unset($_SESSION['ganadores']);
 }
 
 

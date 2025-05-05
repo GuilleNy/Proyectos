@@ -15,7 +15,8 @@
     //par que cuando de el boton de atras este cargue este controlador y pueda borrar
     //esa sesion. $_SESSION["sort"]
     eliminarSesionConsultarSorteo();
-    //unsetRealizarSorteo();
+    unsetRealizarSorteo();
+    unsetSeleccionadoRealizarSorteo();
     var_dump($_SESSION);
     require_once("../views/view_inicio.php");
 
