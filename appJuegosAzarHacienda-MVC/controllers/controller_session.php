@@ -129,7 +129,7 @@ function alertaSorteoNoRealizado(){
 }
 function unsetRealizarSorteo(){
     unset($_SESSION["numGand"]);
-    //unset($_SESSION['ganadores']);
+    unset($_SESSION['ganadores']);
 }
 
 
