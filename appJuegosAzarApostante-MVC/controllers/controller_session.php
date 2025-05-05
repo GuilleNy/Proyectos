@@ -103,6 +103,18 @@ function noHaySaldo(){
     exit();
 
 }
+function alertaSaldo(){
+    if (isset($_SESSION['cantNoValida'])) {
+        echo "<div class='alert alert-warning'>" . $_SESSION['cantNoValida'] . "</div>";
+        unset($_SESSION['cantNoValida'] ); 
+    }
+}
+
+function alertaCantNoValida(){
+    $_SESSION['cantNoValida']="La cantidad debe ser numeros positivos";
+    header("Location: ../controllers/controller_cargarSaldo.php");
+    exit();
+}
 
 function rellenarAllCampos(){
     $_SESSION['mensajeLlenarCampo']="Tienes que rellenar todos los campos sin que esten repetidos entre ellos.";
@@ -126,5 +138,30 @@ function alertaRealizarApuesta(){
     
 }
 
+/*
+function alertaCargarSaldo(){
+    if (isset($_SESSION['compraRealizada'])) {
+        echo "<div class='alert alert-success'>" . $_SESSION['compraRealizada'] . "</div>";
+        unset($_SESSION['compraRealizada'] ); 
+    
+    
+    }else if(isset( $_SESSION['compraNoRealizada']) ){
+        echo "<div class='alert alert-danger'>" . $_SESSION['compraNoRealizada'] . "</div>";
+        unset($_SESSION['compraNoRealizada']); 
+    }
+}
+
+function alertaCargoRealizado(){
+    $_SESSION['compraRealizada']="Compra Realizada Con Exito.";
+    header("Location: ../controllers/controller_repuestaCompra.php");
+    exit();
+}
+
+function alertaCargoNoRealizada(){
+    $_SESSION['compraNoRealizada']="Compra en Espera. Pago no Realizado.";
+    header("Location: ../controllers/controller_repuestaCompra.php");
+    exit();
+}
+*/
 
 ?>

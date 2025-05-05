@@ -7,7 +7,7 @@
     alertaCompletarCampo();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_POST['registro'])){
-            if(validarRegistro()){// si validar es true realiza la recoleccion de datos
+            if(validarRegistro() ){// si validar es true realiza la recoleccion de datos
                 require_once("../db/db.php");
                 require_once ("../models/model_registro.php");
                 list($dni, $nombre, $apellido, $email)=recogerDatosRegistro();
