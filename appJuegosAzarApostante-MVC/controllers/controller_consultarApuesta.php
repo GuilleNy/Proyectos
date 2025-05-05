@@ -27,6 +27,9 @@
             //var_dump($datos);
         }
     }
+    require_once("../db/db.php");
+    require_once ("../models/model_inicio.php");
+    saldoApostante();
     
     //var_dump($sortActivos);
     require_once ("../views/view_consultarApuesta.php");

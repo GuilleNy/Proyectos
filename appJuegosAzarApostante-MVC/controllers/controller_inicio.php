@@ -13,8 +13,12 @@
     
     eliminarSesionConsultarSorteo();
     eliminarSsesionesConsultarApuesta();
-   
-    var_dump($_SESSION);
+    require_once("../db/db.php");
+    require_once ("../models/model_inicio.php");
+    saldoApostante();
+
+    
+    //var_dump($_SESSION);
     require_once("../views/view_inicio.php");
 
 ?>

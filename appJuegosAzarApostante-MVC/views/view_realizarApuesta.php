@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
 </head>
 <body>
+    <div class="text-center">
+        <div class="d-inline-block bg-warning text-white px-4 py-2 rounded shadow-sm">
+            <div class="d-flex gap-3">
+            <div>
+                <label>Usuario:</label>
+                <input type="text" class="form-control" value="<?= $_SESSION["VstUsuario"] ?? ''; ?>" readonly>
+            </div>
+            <div>
+                <label>Saldo:</label>
+                <input type="text" class="form-control" value="<?= $_SESSION["saldo"]["SALDO"] ?? ''; ?>" readonly>
+            </div>
+            </div>
+        </div>
+    </div>
+
 
     <form name="inicio" action="" method="POST" class="d-flex justify-content-center align-items-center vh-20">
         <div class="container">

@@ -82,6 +82,10 @@ function nameUsuario(){
     return $_SESSION["VstUsuario"];
 }
 
+function saldoApostante(){
+    $_SESSION["saldo"]=saldoApostador();
+}
+
 function guardarDatosApuestas($datos) {
     $_SESSION['datosApuestas'] = $datos;
 }
@@ -121,40 +125,6 @@ function alertaRealizarApuesta(){
     }
     
 }
-/*
-function alertaSorteo(){
-    if (isset($_SESSION['mensajeAlta'])) {
-        echo "<div class='alert alert-success'>" . $_SESSION['mensajeAlta'] . "</div>";
-        unset($_SESSION['mensajeAlta']); 
-    }
-}
 
-function altaSorteoCorrecto(){
-    $_SESSION['mensajeAlta']="Alta Completada";
-    header("Location: ../controllers/controller_altaSorteo.php");
-    exit();
-}
-
-function alertaRealizarSorteo(){
-    if (isset($_SESSION['mensajeSorteo'])) {
-        echo "<div class='alert alert-success'>" . $_SESSION['mensajeSorteo'] . "</div>";
-        unset($_SESSION['mensajeSorteo']); // Borra el mensaje después de mostrarlo
-    }else if(isset($_SESSION['mensajeSorteoFail'])) {
-        echo "<div class='alert alert-danger'>" . $_SESSION['mensajeSorteoFail'] . "</div>";
-        unset($_SESSION['mensajeSorteoFail']); 
-    }
-   
-}
-
-function alertaSorteoRealizado(){
-    $_SESSION['mensajeSorteo']="Sorteo realizado correctamente.";
-
-}
-function alertaSorteoNoRealizado(){
-    $_SESSION['mensajeSorteoFail']="Debes generar una Combinacion Ganadora";
-    //header("Location: ./realizarSorteo.php");
-    //exit();
-}
-*/
 
 ?>
