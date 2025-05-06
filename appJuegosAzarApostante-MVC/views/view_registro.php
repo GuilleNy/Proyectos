@@ -32,18 +32,19 @@
                         <label for="email" class="form-label"><b>Email:</b></label>
                         <input type="text" name="email" class="form-control w-75 mx-auto">
                     </div>
-                    
+
                     <div>
                         <input type="submit" value="Registrarse" name="registro" class="btn btn-primary">
                     </div>
                     <hr>
-                    <div>
-                        <a href="../index.php" class="btn btn-warning">Volver al Login</a>
-                    </div>
+                    
                 </div>
             </div>
         </div>
     </form>
+    <div>
+        <a href="../index.php" class="btn btn-warning">Volver al Login</a>
+    </div>
 
 </body>
 </html>

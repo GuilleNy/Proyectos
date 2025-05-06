@@ -1,6 +1,10 @@
 <?php
 
-function ingresarRegistro($dni, $nombre, $apellido, $email){
+function ingresarRegistro(){
+    $dni=obtenerDNI();
+    $nombre=obtenerNombre();
+    $apellido=obtenerApellido();
+    $email=obtenerEmail();
 
     try{
         $GLOBALS["conn"]->beginTransaction();

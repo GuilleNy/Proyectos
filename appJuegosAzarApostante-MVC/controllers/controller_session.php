@@ -30,6 +30,31 @@ function eliminarSesionSinRedirigir(){
     setcookie("PHPSESSID", "" , time() - (86400 * 30), "/",$_SERVER['HTTP_HOST']);
     
 }
+/*
+function datoRegistroDNI( $dni){
+    $_SESSION["dni_registro"] = $dni;
+}
+*/
+function datosRegistro($dni, $nombre, $apellido, $email){
+    $_SESSION["dni_registro"] = $dni;
+    $_SESSION["nombre_registro"] = $nombre;
+    $_SESSION["apellido_registro"] = $apellido;
+    $_SESSION["email_registro"] = $email;
+
+}
+
+function obtenerDNI(){
+    return $_SESSION["dni_registro"];
+}
+function obtenerNombre(){
+    return $_SESSION["nombre_registro"];
+}
+function obtenerApellido(){
+    return $_SESSION["apellido_registro"];
+}
+function obtenerEmail(){
+    return $_SESSION["email_registro"];
+}
 
 function alertalogin(){
     if (isset($_SESSION['mensajelogin'])) {

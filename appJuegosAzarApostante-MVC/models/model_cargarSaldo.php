@@ -41,4 +41,27 @@ function insertarPago($importeTotal)
         }
     }
 
+    function insertarPagoRegistro($importeTotal)
+    {
+        require_once("controller_session.php");
+        $dni=obtenerDNI();
+        try
+        {
+            $GLOBALS["conn"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $GLOBALS["conn"]->beginTransaction();
+            $stmt = $GLOBALS["conn"]->prepare("UPDATE apostante SET SALDO = SALDO + :cargar WHERE DNI = :dni");
+            $stmt->bindParam(':dni', $dni);
+            $stmt->bindParam(':cargar', $importeTotal);
+        
+            $stmt -> execute();
+            $GLOBALS["conn"] -> commit();
+        }
+        catch(PDOException $e)
+        {
+            $GLOBALS["conn"] -> rollBack();
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+
 ?>
