@@ -17,7 +17,9 @@
                 //registroCompletado();
                 //datoRegistroDNI( $dni);
                 header("Location: ../controllers/controller_registroYCargarSaldo.php");
-                exit();
+                exit();//con esto obligo a que una vez que se valide el registro, se redirija al controller_registroYCargarSaldo.php ,
+                        //esto porque si no pongo esto el codigo seguira hasta toparse con require_once ("../views/view_registro.php");  
+                        //que hara que vuelva a cargar otra vez el formulario de registro.
 
             }else{//si validar es false entonces manda un mensaje de error.
                 registroNoCompletado();//alerta que deben completarse todos los campos del registro
