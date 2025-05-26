@@ -64,8 +64,7 @@ function alertalogin(){
 }
 function noLogin(){
     $_SESSION['mensajelogin'] = "Usuario o contraseña no válido";
-    header("Location: index.php");
-    exit();
+    
 }
 
 function alertaCompletarCampo(){
@@ -108,7 +107,7 @@ function nameUsuario(){
 }
 
 function saldoApostante(){
-    $_SESSION["saldo"]=saldoApostador();
+    $_SESSION["saldo"]=saldoApostador();// esta funcion se encuentra en model_inicio.php
 }
 
 function guardarDatosApuestas($datos) {

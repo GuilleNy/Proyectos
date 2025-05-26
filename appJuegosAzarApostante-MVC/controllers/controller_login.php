@@ -13,9 +13,11 @@
         $usu = $_POST["usuario"];
         $contra = $_POST["contra"];
         require_once ("models/model_login.php");
-        $resultado = verificarDatos($usu,$contra,$conn);
+        $resultado = verificarDatos($usu,$contra);
         if($resultado == null){
-            noLogin();
+            noLogin();//alerta de usuario no valido;
+            header("Location: index.php");
+            exit();
         }else
         {
             $usuarioLogin = $resultado["DNI"];

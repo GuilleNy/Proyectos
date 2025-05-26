@@ -10,8 +10,10 @@
             if(validarRegistro() ){// si validar es true realiza la recoleccion de datos
                 //datoRegistroDNI();
                 
-                require_once("../db/db.php");
-                require_once ("../models/model_registro.php");
+                //esto lo comente porque esto lo utilizo en controller_rpuestaRegistroSaldo
+                //require_once("../db/db.php");
+                //require_once ("../models/model_registro.php");
+                
                 list($dni, $nombre, $apellido, $email)=recogerDatosRegistro();
                 datosRegistro($dni, $nombre, $apellido, $email);//con los datos ya recogidos los introduzco en sesiones para poder manejar esos datos luego.
                 //registroCompletado();

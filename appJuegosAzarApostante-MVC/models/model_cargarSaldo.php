@@ -22,6 +22,7 @@ function recuperarInformacionCliente()
 function insertarPago($importeTotal)
     {
         require_once("controller_session.php");
+        //Aqui llamo a esta funcion debido a que el usuario ya ha iniciado sesion y tengo su dni.
         $dni = nameUsuario();
         try
         {
@@ -44,6 +45,7 @@ function insertarPago($importeTotal)
     function insertarPagoRegistro($importeTotal)
     {
         require_once("controller_session.php");
+        //aqui llamo a esta funcion ya que es el parte del registro
         $dni=obtenerDNI();
         try
         {

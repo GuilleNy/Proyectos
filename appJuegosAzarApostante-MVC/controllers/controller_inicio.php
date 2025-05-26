@@ -15,6 +15,8 @@
     eliminarSsesionesConsultarApuesta();
     require_once("../db/db.php");
     require_once ("../models/model_inicio.php");
+
+    //esta funcion se encuentra en controller_session
     saldoApostante();
 
     
