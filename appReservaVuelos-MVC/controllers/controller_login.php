@@ -18,10 +18,9 @@
             noLogin();//alerta de usuario no valido;
             header("Location: index.php");
             exit();
-        }else
-        {
+        }else{
             $usuarioLogin = $resultado["emailaddress"];
-            $contraLogin= $resultado["birthdates"];
+            $contraLogin= $resultado["birthdate"];
             crearSesion($usuarioLogin, $contraLogin);
             header("Location: controllers/controller_inicio.php");
             exit();

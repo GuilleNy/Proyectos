@@ -13,7 +13,7 @@
             <!-- Aplicación -->
             <div class="card border-success mb-3 mx-auto" style="max-width: 30rem;">
                 <div class="card-header text-center">
-                    <h2><b>LOGIN APOSTANTE</b></h2>
+                    <h2><b>LOGIN PASAJERO</b></h2>
                 </div>
                 <div class="card-body text-center">
                     <div class="mb-3">
@@ -31,7 +31,7 @@
                     </div>
                     <hr>
                     <div>
-                        <a href="/appJuegosAzarApostante-MVC/controllers/controller_registro.php" class="btn btn-primary">Registrarse</a>
+                        <a href="/appReservaVuelos-MVC/controllers/controller_registro.php" class="btn btn-primary">Registrarse</a>
                     </div>
                 </div>
             </div>
