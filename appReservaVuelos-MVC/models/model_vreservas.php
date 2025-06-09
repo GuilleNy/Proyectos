@@ -32,7 +32,7 @@ function obtenerCapacidaPorId($idvuelo){
         $stmt->bindParam(':idvuelo', $idvuelo);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $capacidad=$stmt->fetchAll();
+        $capacidad=$stmt->fetch();
     }catch(PDOException $e)
         {
             echo "Error: " . $e->getMessage();

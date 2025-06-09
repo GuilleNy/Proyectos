@@ -75,6 +75,28 @@ function rellenarAllCampos(){
     exit();
 }
 
+function alertaCampoVreserva(){
+    if (isset($_SESSION['vueloAñadido'])) {
+        echo "<div class='alert alert-success'>" . $_SESSION['vueloAñadido'] . "</div>";
+        unset($_SESSION['vueloAñadido']); // Borra el mensaje después de mostrarlo
+    }else if(isset($_SESSION['completarCampo'])) {
+        echo "<div class='alert alert-danger'>" . $_SESSION['completarCampo'] . "</div>";
+        unset($_SESSION['completarCampo']); 
+    }
+}
+
+function reservaAñadida(){
+    $_SESSION['vueloAñadido'] = "Vuelo añadido a la cesta.";
+}
+
+function campoNoCompletado(){
+    $_SESSION['completarCampo'] = "Completa Todos los campos.";
+    header("Location: ../controllers/controller_vreservas.php");
+    exit();
+}
+
+
+
 function annadirCesta($reservaSelect,$numAsiento){
     $precio=precioAsignado($reservaSelect);//
     $datos=$reservaSelect."|".$numAsiento."|".$precio;
@@ -99,11 +121,11 @@ function precioAsignado($reservaSelect){
     $idVuelo=$detallesPedido[0];
     $capacidadVuelo= obtenerCapacidaPorId($idVuelo);
     $capacidadAvion=$capacidadVuelo['capacity'];
-
+    //var_dump($capacidadAvion);
     /**El precio de la reserva se calcula en base a la capacidad del avión. Si la capacidad es inferior a 100,
     el precio será de 80€; entre 100 y 200 será de 120€ y si es superior a 100 el precio será de 300€ */
     if($capacidadAvion < 100){
-        $precio=$capacidadAvion ;
+        $precio=80 ;
     }else if($capacidadAvion >= 100 && $capacidadAvion <= 200){
         $precio=120;
     }else if($capacidadAvion > 200 ){
@@ -125,14 +147,5 @@ function vaciarCesta()
     unset($_SESSION["reserva"]["vuelos"]);
 }
 
-function calcularPrecioVuelo(){
-    $cesta=devolverCesta();
-
-    
-
-
-
-
-}
 
 ?>

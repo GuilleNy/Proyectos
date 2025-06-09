@@ -5,19 +5,24 @@
     require_once("../db/db.php");
     require_once("../models/model_vreservas.php");
     iniciarSession();
+    alertaCampoVreserva();
     
     if(!verificarSesion()){
         eliminarSesionSinRedirigir();
         header("Location: ../index.php");
         exit();
     }else if(isset($_POST['agregar'])){
+        if(!empty(isset($_POST['vuelos'])) && !empty(isset($_POST['asiento'])) ){
+            $reservaSelect = $_POST['vuelos'];
+            $numAsiento = $_POST['asiento'];
+            annadirCesta($reservaSelect,$numAsiento);//controller_session.php
+            header("Refresh: 0");
+            reservaAñadida();//controller_session.php
 
-        $reservaSelect = $_POST['vuelos'];
-        $numAsiento = $_POST['asiento'];
-
-        annadirCesta($reservaSelect,$numAsiento);//controller_session.php
-        header("Refresh: 0");
-    } else if(isset($_POST['comprar'])){
+        }else{
+            campoNoCompletado();//controller_session.php   
+        }
+    } else if(isset($_POST['reservar'])){
         //
 
 

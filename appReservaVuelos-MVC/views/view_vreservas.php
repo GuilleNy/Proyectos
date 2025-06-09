@@ -58,7 +58,7 @@
 		<div>
 			
 			<input type="submit" value="Agregar a Cesta" name="agregar" class="btn btn-warning disabled">
-			<input type="submit" value="Finalizar Reserva" name="comprar" class="btn btn-warning disabled">
+			<input type="submit" value="Finalizar Reserva" name="reservar" class="btn btn-warning disabled">
 			<input type="submit" value="Vaciar Cesta" name="vaciar" class="btn btn-warning disabled">
 			<input type="submit" value="Volver" name="volver" class="btn btn-warning disabled">
 		</div>		
