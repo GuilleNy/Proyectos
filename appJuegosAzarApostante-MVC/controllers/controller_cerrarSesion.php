@@ -2,5 +2,6 @@
     require_once "controller_session.php";
     iniciarSession();
     eliminarSesionSinRedirigir();
-    header("Location: ../index.php")
+    header("Location: ../index.php");
+    exit();
 ?>

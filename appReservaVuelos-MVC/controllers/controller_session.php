@@ -31,6 +31,10 @@ function eliminarSesionSinRedirigir(){
     
 }
 
+function emailUsuario(){
+    return $_SESSION["VstUsuario"];
+}
+
 function alertalogin(){
     if (isset($_SESSION['mensajelogin'])) {
         echo "<div class='alert alert-warning'>" . $_SESSION['mensajelogin'] . "</div>";
@@ -65,18 +69,50 @@ function registroNoCompletado(){
 }
 
 
-function nameUsuario(){
-    return $_SESSION["VstUsuario"];
-}
-
-
-
-
 function rellenarAllCampos(){
     $_SESSION['mensajeLlenarCampo']="Tienes que rellenar todos los campos sin que esten repetidos entre ellos.";
     header("Location: ../controllers/controller_realizarApuesta.php");
     exit();
 }
 
+function annadirCesta($reservaSelect,$numAsiento){
+    $datos=$reservaSelect."|".$numAsiento;
+    $detallesVuelo=explode("|", $datos);
+
+    if (isset($_SESSION["reserva"]["vuelos"])) {
+        $cestaVuelos = $_SESSION["reserva"]["vuelos"];
+        $cestaVuelos[] = $detallesVuelo;
+    } else {
+        $cestaVuelos = array();
+        $cestaVuelos[] = $detallesVuelo;
+    }
+
+    $_SESSION["reserva"]["vuelos"] = $cestaVuelos;
+    
+
+}
+
+function devolverCesta()
+{
+    $cesta = null;
+    if(isset($_SESSION["reserva"]["vuelos"]))
+        $cesta = $_SESSION["reserva"]["vuelos"];
+    return $cesta;
+}
+
+function vaciarCesta()
+{
+    unset($_SESSION["reserva"]["vuelos"]);
+}
+
+function calcularPrecioVuelo(){
+    $cesta=devolverCesta();
+
+    
+
+
+
+
+}
 
 ?>

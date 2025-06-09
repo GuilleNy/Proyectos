@@ -6,7 +6,7 @@
     iniciarSession();
     alertalogin();
     if(verificarSesion()){
-        header("Location: controllers/controller_inicio.php");//hacer esto
+        header("Location: controllers/controller_vinicio.php");//hacer esto
         exit();
     }else if(isset($_POST['login']))
     {
@@ -22,7 +22,7 @@
             $usuarioLogin = $resultado["emailaddress"];
             $contraLogin= $resultado["birthdate"];
             crearSesion($usuarioLogin, $contraLogin);
-            header("Location: controllers/controller_inicio.php");
+            header("Location: controllers/controller_vinicio.php");
             exit();
         }
 
