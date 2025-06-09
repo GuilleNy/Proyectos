@@ -46,7 +46,7 @@
                 print '<table class="table table-bordered table-hover table-sm text-nowrap"><tr><th>Id Vuelo</th><th>Nombre Vuelo</th><th>Salida</th><th>Llegada</th><th>Asiento</th><th>Precio Total</th></tr>';
                 
                 foreach ($cesta as $productoCesta => $detalles) {
-                    print "<tr><td>".$detalles[0]."</td><td>".$detalles[1]."</td><td>".$detalles[2]."</td><td>".$detalles[3]."</td><td>".$detalles[4]."</td></tr>";
+                    print "<tr><td>".$detalles[0]."</td><td>".$detalles[1]."</td><td>".$detalles[2]."</td><td>".$detalles[3]."</td><td>".$detalles[4]."</td><td>".$detalles[5]."</td></tr>";
                 }
                 print "</tr>";
                 echo "</div>";

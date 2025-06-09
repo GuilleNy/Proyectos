@@ -76,7 +76,8 @@ function rellenarAllCampos(){
 }
 
 function annadirCesta($reservaSelect,$numAsiento){
-    $datos=$reservaSelect."|".$numAsiento;
+    $precio=precioAsignado($reservaSelect);//
+    $datos=$reservaSelect."|".$numAsiento."|".$precio;
     $detallesVuelo=explode("|", $datos);
 
     if (isset($_SESSION["reserva"]["vuelos"])) {
@@ -90,6 +91,25 @@ function annadirCesta($reservaSelect,$numAsiento){
     $_SESSION["reserva"]["vuelos"] = $cestaVuelos;
     
 
+}
+
+function precioAsignado($reservaSelect){
+
+    $detallesPedido=explode("|",$reservaSelect);
+    $idVuelo=$detallesPedido[0];
+    $capacidadVuelo= obtenerCapacidaPorId($idVuelo);
+    $capacidadAvion=$capacidadVuelo['capacity'];
+
+    /**El precio de la reserva se calcula en base a la capacidad del avión. Si la capacidad es inferior a 100,
+    el precio será de 80€; entre 100 y 200 será de 120€ y si es superior a 100 el precio será de 300€ */
+    if($capacidadAvion < 100){
+        $precio=$capacidadAvion ;
+    }else if($capacidadAvion >= 100 && $capacidadAvion <= 200){
+        $precio=120;
+    }else if($capacidadAvion > 200 ){
+        $precio=300;
+    }
+    return $precio;
 }
 
 function devolverCesta()

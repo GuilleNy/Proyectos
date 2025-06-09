@@ -31,7 +31,7 @@
     }
     $allVuelos=vuelosDisponibles();//model_vreservas.php
 
-    var_dump($_SESSION);
+    print_r($_SESSION);
     $cesta = devolverCesta();//controller_session.php
     
     require_once("../models/model_inicio.php");

@@ -23,6 +23,23 @@ function vuelosDisponibles(){
 
 }
 
+function obtenerCapacidaPorId($idvuelo){
+    try{
+        $stmt=$GLOBALS["conn"]->prepare("SELECT a.capacity
+                                        FROM flight f, airplane a
+                                        WHERE f.airplane_id=a.airplane_id
+                                        AND f.flight_id=:idvuelo");
+        $stmt->bindParam(':idvuelo', $idvuelo);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $capacidad=$stmt->fetchAll();
+    }catch(PDOException $e)
+        {
+            echo "Error: " . $e->getMessage();
+        }
+
+    return $capacidad;
+}
 
 
 ?>
