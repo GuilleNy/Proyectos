@@ -147,5 +147,28 @@ function vaciarCesta()
     unset($_SESSION["reserva"]["vuelos"]);
 }
 
+function obtenerImporteTotal(){
+    $datos=devolverCesta();
+    $importeTotal=0;
+
+    foreach ($datos as $clave => $valor) {
+        $importeTotal=$importeTotal+$valor[5];
+    }
+
+
+    return $importeTotal;
+}
+
+/**
+ * $cesta = $_SESSION["reserva"]["vuelos"];
+
+    echo $cesta[0][0]; // 3          (posiblemente un ID)
+    echo $cesta[0][1]; // AE1518    (número de vuelo)
+    echo $cesta[0][2]; // COLONIA   (origen)
+    echo $cesta[0][3]; // MARSELLA  (destino)
+    echo $cesta[0][4]; // 12H       (duración o salida)
+    echo $cesta[0][5]; // 120       (precio o algo similar)
+ */
+
 
 ?>
