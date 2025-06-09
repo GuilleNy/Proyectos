@@ -26,6 +26,9 @@
             exit();
         }
 
+    }else if(isset($_POST['registrarse'])){
+        header("Location: controllers/controller_registro.php");
+        exit();
     }
 
 

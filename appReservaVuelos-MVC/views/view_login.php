@@ -31,9 +31,9 @@
                     </div>
                     <hr>
                     <div>
-                        <a href="/appReservaVuelos-MVC/controllers/controller_registro.php" class="btn btn-primary">Registrarse</a>
+                        <input type="submit" value="Registrarse" name="registrarse" class="btn btn-primary">
                     </div>
-                </div>
+                    
             </div>
         </div>
     </form>
