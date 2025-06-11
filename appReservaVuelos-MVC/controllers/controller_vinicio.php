@@ -2,6 +2,7 @@
 
     require_once ("controller_session.php");
     require_once ("controller_comunes.php");
+    require_once("../models/model_vchecking.php");
 
     iniciarSession();
 
@@ -11,6 +12,9 @@
         exit();
     }else if(isset($_POST['reservar'])){
         header("Location: ../controllers/controller_vreservas.php");
+        exit();
+    }else if(isset($_POST['checking'])){
+        header("Location: ../controllers/controller_vchecking.php");
         exit();
     }else if(isset($_POST['consultar'])){
         header("Location: ../controllers/controller_vconsultas.php");

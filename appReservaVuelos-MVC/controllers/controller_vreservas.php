@@ -24,8 +24,9 @@
             campoNoCompletado();//controller_session.php   
         }
     } else if(isset($_POST['reservar'])){
-        $importeTotal=obtenerImporteTotal();
+        $importeTotal=obtenerImporteTotal();//controller_session.php 
 
+        //esto necesariompara la pasarela de pago
         require_once "controller_redsys.php";
         list($params,$signature,$version) = redireccionarPago($importeTotal);
 

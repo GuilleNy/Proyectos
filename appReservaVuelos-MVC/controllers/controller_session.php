@@ -95,6 +95,27 @@ function campoNoCompletado(){
     exit();
 }
 
+function alertaChecking(){
+    if (isset($_SESSION['checkingHecho'])) {
+        echo "<div class='alert alert-success'>" . $_SESSION['checkingHecho'] . "</div>";
+        unset($_SESSION['checkingHecho']); // Borra el mensaje después de mostrarlo
+    }
+}
+
+function checkingHecho(){
+    $_SESSION['checkingHecho'] = "Checking Realizado con éxito.";
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 function annadirCesta($reservaSelect,$numAsiento){
@@ -161,13 +182,12 @@ function obtenerImporteTotal(){
 
 /**
  * $cesta = $_SESSION["reserva"]["vuelos"];
-
-    echo $cesta[0][0]; // 3          (posiblemente un ID)
-    echo $cesta[0][1]; // AE1518    (número de vuelo)
-    echo $cesta[0][2]; // COLONIA   (origen)
-    echo $cesta[0][3]; // MARSELLA  (destino)
-    echo $cesta[0][4]; // 12H       (duración o salida)
-    echo $cesta[0][5]; // 120       (precio o algo similar)
+ * echo $cesta[0][0]; // 3          (posiblemente un ID)
+ * echo $cesta[0][1]; // AE1518    (número de vuelo)
+ * echo $cesta[0][2]; // COLONIA   (origen)
+ * echo $cesta[0][3]; // MARSELLA  (destino)
+ * echo $cesta[0][4]; // 12H       (duración o salida)
+ * echo $cesta[0][5]; // 120       (precio o algo similar)
  */
 
 
