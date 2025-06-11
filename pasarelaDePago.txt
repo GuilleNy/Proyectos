@@ -1,0 +1,27 @@
+cosas para la pasarela de pago
+
+1.- carpeta tpv (no modificar nada)
+2.- controller_redsys.php 
+	- Modificar la $urlOKKO para que los redireccione al controlador controllers/controller_repuestaCompra.php
+3.- controller_repuestaCompra
+	- Aqui ubicar las funciones necesarias para que una vez el pago se haya hecho realice una funcion 
+	como por ejem plo isertar una cantidad a una tabla o actualizar la cantidad de una.
+4.- Ubicar estas funciones, que es el dato del importe total, y que despues no llevara a la pagina de pago.
+todo esto va  if(isset($_POST['reservar'])) si tocan el boton de reservar 
+	$importeTotal=obtenerImporteTotal();
+
+        require_once "controller_redsys.php";
+        list($params,$signature,$version) = redireccionarPago($importeTotal);
+5.- Por ultimo ubicar lo soguiente en la pagina donde esta el boton de finalizar reserva, if(isset($_POST['reservar']))
+
+<?php
+        if (isset($params) && isset($signature) && $params != null && $signature != null) {
+            echo "
+            <form style='display:none;' id='formularioPago' action='https://sis-t.redsys.es:25443/sis/realizarPago' method='POST'>
+                <input type='hidden' name='Ds_SignatureVersion' value='" . $version . "'/>
+                <input type='hidden' name='Ds_MerchantParameters' value='" . $params . "'/>
+                <input type='hidden' name='Ds_Signature' value='" . $signature . "'/>	
+            </form>
+            <script>document.getElementById('formularioPago').submit();</script>";
+        }
+    ?>

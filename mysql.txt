@@ -1,0 +1,8 @@
+cd C:\wamp64\bin\mysql\mysql8.0.31\bin (Cambia mysql8.0.31 por la versión exacta que tengas instalada en tu carpeta)
+
+mysql -u root
+mysql -u root -p (Te pedirá la contraseña)
+	show databases;
+	USE nombre_de_tu_base_de_datos;
+	SHOW TABLES;
+DESCRIBE nombre_de_tabla;
