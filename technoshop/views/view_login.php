@@ -25,7 +25,7 @@
                     </div>
                                       
                         
-                    <input type="submit" name="submit" value="Login" class="btn btn-warning disabled">
+                    <input type="submit" name="login" value="Login" class="btn btn-warning disabled">
                 </form>
             </div>
         </div>
