@@ -32,7 +32,7 @@ $datos=devolverCesta();
 
 
 function realizarPedido(){
-    $idreserva=obtenerUltimoId();
+   
     $dni= obtenerdni();
     $fecha=date("Y-m-d");
     $importeTotal=0;

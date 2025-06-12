@@ -38,7 +38,7 @@
                 if ($datosCompra !== null && isset($datosCompra['Ds_Amount']))
                 {
                
-                    require_once("../models/model_comprarproductos.php.php");
+                    require_once("../models/model_comprarproductos.php");
                     realizarPedido();//model_comprarproductos.php
                    
                 }
@@ -51,7 +51,7 @@
                 if ($datosCompra !== null && isset($datosCompra['Ds_Amount']))
                 {
                     
-                    require_once("../models/model_comprarproductos.php.php");
+                    require_once("../models/model_comprarproductos.php");
                     realizarPedido();//model_comprarproductos.php
                    
                 }
