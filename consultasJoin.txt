@@ -1,0 +1,23 @@
+SELECT p.name , v.flightno, salida.name salida, llegada.name llegada, v.departure , v.arrival, r.seat
+FROM passengerdetails p, booking r, flight v, airport salida, airport llegada
+WHERE p.passenger_id=r.passenger_id
+and r.flight_id=v.flight_id
+
+and v.from_a=salida.airport_id 
+and v.to_a=llegada.airport_id and
+p.name="Michael Browne";
+
+select f.flight_id , f.flightno , a.capacity
+from flight f, airplane a
+where f.airplane_id=a.airplane_id
+and (select count(*) from booking b where b.flight_id=f.flight_id) < a.capacity;
+
+
+
+select f.flight_id,  f.flightno , salida.name salida, llegada.name llegada 
+from flight f, booking b , airport salida, airport llegada
+where f.flight_id=b.flight_id
+and f.from_a=salida.airport_id
+and f.to_a=llegada.airport_id
+and b.passenger_id=1 and seat is null;
+

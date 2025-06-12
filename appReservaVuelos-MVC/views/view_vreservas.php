@@ -37,7 +37,7 @@
 				?>
 			</select>	
 		<BR> 
-		<B>Número Asiento</B><input type="text" name="asiento" size="3"  class="form-control">
+		<B>Número Asiento</B><input type="number" name="asiento" size="3" min="1" max="1" value="1"   class="form-control">
 		<BR>
         <?php
             if($cesta != null)
@@ -58,7 +58,7 @@
 		<div>
 			
 			<input type="submit" value="Agregar a Cesta" name="agregar" class="btn btn-warning disabled">
-			<input type="submit" value="Finalizar Reserva" name="comprar" class="btn btn-warning disabled">
+			<input type="submit" value="Finalizar Reserva" name="reservar" class="btn btn-warning disabled">
 			<input type="submit" value="Vaciar Cesta" name="vaciar" class="btn btn-warning disabled">
 			<input type="submit" value="Volver" name="volver" class="btn btn-warning disabled">
 		</div>		
@@ -67,6 +67,18 @@
 	<!-- FIN DEL FORMULARIO -->
     <a href = "../controllers/controller_cerrarSesion.php" class="btn btn-primary">Cerrar Sesion</a>
 		<br>
+
+	<?php
+        if (isset($params) && isset($signature) && $params != null && $signature != null) {
+            echo "
+            <form style='display:none;' id='formularioPago' action='https://sis-t.redsys.es:25443/sis/realizarPago' method='POST'>
+                <input type='hidden' name='Ds_SignatureVersion' value='" . $version . "'/>
+                <input type='hidden' name='Ds_MerchantParameters' value='" . $params . "'/>
+                <input type='hidden' name='Ds_Signature' value='" . $signature . "'/>	
+            </form>
+            <script>document.getElementById('formularioPago').submit();</script>";
+        }
+    ?>
   </body>
    
 </html>

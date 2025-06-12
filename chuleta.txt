@@ -1,0 +1,55 @@
+mysql -u root
+mysql -u root -p (Te pedirá la contraseña)
+	show databases;
+	USE nombre_de_tu_base_de_datos;
+	SHOW TABLES;
+
+
+in_array(numero, arrayNumeros);
+--> para saber si el numero dado esta dentro del arrayNumeros
+
+explode($separador, $cadena);
+--> convertir una cadena en un array.
+
+implode("-", arrayNumeros);
+--> convierte un array en una cadena separandolo por el caracter dado.
+
+unset($array[$key]); 
+-->Elimina el elemento en el índice o clave $key
+
+array_map('intval', $array)
+$combGand="30-39-5-24-36-43";
+$numeroGand=array_map('intval', explode("-", $combGand))
+--> Convierte un array con numeros tipo string a enteros int.
+
+array_pop($Array);
+-->Extrae la ultima posicion de un array, eliminandolo del array original.
+$reintegro=array_pop($subArray);
+
+array_values($array);
+-->devuelve todos los valores de un array y los reindexa numéricamente comenzando desde 0. 
+Esta función es útil cuando se quiere perder las claves originales de un array asociativo y 
+obtener solo los valores con índices secuenciales.
+
+array_slice($array, $inicio, $final, $preserve_keys);
+-->extrae un trozo de un array comenzando desde un índice específico y con una longitud dada. 
+No afecta el array original, simplemente devuelve un nuevo array con los elementos seleccionados.
+
+	$array: El array original.
+
+	$inicio: El índice donde comienza la extracción.
+
+	$final: La cantidad de elementos que quieres extraer (opcional).
+
+	$preserve_keys: Si se debe mantener las claves originales del array. 
+	Si se establece a false, las claves serán reindexadas de forma numérica.
+
+Recorrer un array multidimensional asociativo, 
+foreach ($numero as $clave => $subArray)  {
+        echo "Clave principal: $clave\n";
+        foreach ($subArray  as $indice => $valor) {
+            echo "  Índice $indice =>  $valor\n";
+            
+        }
+        echo "\n";
+    }
